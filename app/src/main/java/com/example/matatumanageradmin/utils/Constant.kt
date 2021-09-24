@@ -2,7 +2,7 @@ package com.example.matatumanageradmin.utils
 
 object Constant {
 
-    const val admincollectionname = "MatatuAdmin"
+    const val admincollectionName = "MatatuAdmin"
     const val driverCollectionName = "Drivers"
     const val tripCollectionName = "Trips"
     const val dayStatCollectionName = "Day Stat"
