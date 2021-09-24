@@ -64,12 +64,26 @@ class FirebaseRepository @Inject constructor(
     }
 
     override suspend fun addTrip(trip: MatatuTrip): OperationStatus<String> {
+        return try {
+            mFirestore.collection(Constant.admincollectionName).document(uId!!).collection(Constant.matatusCollectionName).document(trip.matId).collection(Constant.tripCollectionName).add(trip).await()
+            OperationStatus.Success("Success")
 
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun addMatatu(matatu: Matatu): OperationStatus<String> {
-        TODO("Not yet implemented")
+        return try {
+                mFirestore.collection(Constant.admincollectionName).document(uId!!).collection(Constant.matatusCollectionName).document(matatu.matPlate).set(matatu).await()
+                OperationStatus.Success("Success")
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
+
+
 
 
 }
