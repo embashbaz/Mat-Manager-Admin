@@ -10,7 +10,7 @@ import kotlinx.coroutines.tasks.await
 class FirebaseRepository @Inject constructor(
     private val mFirestore: FirebaseFirestore,
     private val mAuth: FirebaseAuth,
-    uId: String?
+   private val uId: String?
 ): MainRepository {
     override suspend fun loginAdmin(email: String, password: String): OperationStatus<MatatuAdmin> {
       return  try {
@@ -36,15 +36,35 @@ class FirebaseRepository @Inject constructor(
         matatuAdmin: MatatuAdmin,
         password: String
     ): OperationStatus<String> {
-
+        return try {
+               val user = mAuth.createUserWithEmailAndPassword(matatuAdmin.saccoEmail, password).await().user
+            if(user != null){
+                mFirestore.collection(Constant.admincollectionName).document(user.uid).set(matatuAdmin).await()
+                OperationStatus.Success("Success")
+            }else{
+                OperationStatus.Error("An error occurred")
+            }
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun registerDriver(driver: Driver, password: String): OperationStatus<String> {
-        TODO("Not yet implemented")
+        return try {
+            val user = mAuth.createUserWithEmailAndPassword(driver.driverEmail, password).await().user
+            if(user != null){
+                mFirestore.collection(Constant.admincollectionName).document(uId!!).collection(Constant.driverCollectionName).document(user.uid).set(driver).await()
+                OperationStatus.Success("Success")
+            }else{
+                OperationStatus.Error("An error occurred")
+            }
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun addTrip(trip: MatatuTrip): OperationStatus<String> {
-        TODO("Not yet implemented")
+
     }
 
     override suspend fun addMatatu(matatu: Matatu): OperationStatus<String> {

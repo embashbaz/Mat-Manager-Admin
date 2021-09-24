@@ -22,7 +22,8 @@ data class  Matatu(
 data class Driver(
     var driverId: String = "",
     var driverName: String = "",
-    var drivePhone: Long = 0L
+    var drivePhone: Long = 0L,
+    var driverEmail: String = ""
 )
 
 data class DayStatistic(
@@ -48,7 +49,7 @@ data class MatatuExpenduture(
 data class MatatuTrip(
     var tripId: String = "",
     var tripDay: Date? = null,
-    var carId: String = "",
+    var matId: String = "",
     var driverId: String = "",
     var startTime: String = "",
     var endTime: String = "",
