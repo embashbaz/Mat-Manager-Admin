@@ -11,4 +11,6 @@ interface MainRepository {
     suspend fun addTrip (trip: Trip): OperationStatus<String>
     suspend fun addMatatu (matatu: Bus): OperationStatus<String>
 
+
+
 }
