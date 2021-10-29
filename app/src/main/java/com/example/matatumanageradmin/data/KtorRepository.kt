@@ -8,12 +8,12 @@ class KtorRepository @Inject constructor(
     private val mAuth: FirebaseAuth,
     private  val api: MatManagerApi
 ): MainRepository{
-    override suspend fun loginAdmin(email: String, password: String): OperationStatus<MatatuAdmin> {
+    override suspend fun loginAdmin(email: String, password: String): OperationStatus<MatAdmin> {
         TODO("Not yet implemented")
     }
 
     override suspend fun registerAdmin(
-        matatuAdmin: MatatuAdmin,
+        matatuAdmin: MatAdmin,
         password: String
     ): OperationStatus<String> {
         TODO("Not yet implemented")
@@ -23,11 +23,12 @@ class KtorRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun addTrip(trip: MatatuTrip): OperationStatus<String> {
+    override suspend fun addTrip(trip: Trip): OperationStatus<String> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun addMatatu(matatu: Matatu): OperationStatus<String> {
+    override suspend fun addMatatu(matatu: Bus): OperationStatus<String> {
         TODO("Not yet implemented")
     }
+
 }
