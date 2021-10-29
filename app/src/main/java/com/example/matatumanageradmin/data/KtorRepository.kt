@@ -31,4 +31,50 @@ class KtorRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override suspend fun updateBus(bus: Bus): OperationStatus<String> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateTrip(trip: Trip): OperationStatus<String> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAdmin(uId: String): OperationStatus<MatAdmin> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getDrivers(uId: String): OperationStatus<List<Driver>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getBuses(uId: String): OperationStatus<List<Bus>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getTrips(
+        type: String,
+        id: String,
+        startDate: String,
+        endDate: String
+    ): OperationStatus<List<Trip>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getStats(
+        type: String,
+        id: String,
+        startDate: String,
+        endDate: String
+    ): OperationStatus<List<Statistics>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getExpenses(
+        type: String,
+        id: String,
+        startDate: String,
+        endDate: String
+    ): OperationStatus<List<Expense>> {
+        TODO("Not yet implemented")
+    }
 }
