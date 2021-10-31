@@ -2,6 +2,7 @@ package com.example.matatumanageradmin.data
 
 import com.example.matatumanageradmin.utils.OperationStatus
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class KtorRepository @Inject constructor(
@@ -9,14 +10,42 @@ class KtorRepository @Inject constructor(
     private  val api: MatManagerApi
 ): MainRepository{
     override suspend fun loginAdmin(email: String, password: String): OperationStatus<MatAdmin> {
-        TODO("Not yet implemented")
+        return try {
+
+            var uId = mAuth.signInWithEmailAndPassword(email, password).await().user!!.uid
+            if (!!uId.isNullOrEmpty()){
+                getAdmin(uId)
+            }else{
+                OperationStatus.Error("Pleas make sure the account exit")
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun registerAdmin(
         matatuAdmin: MatAdmin,
         password: String
     ): OperationStatus<String> {
-        TODO("Not yet implemented")
+        return try {
+
+            var uId = mAuth.createUserWithEmailAndPassword(matatuAdmin.email, password).await().user!!.uid
+            if (!!uId.isEmpty()){
+                val response = api.createMatAdmin(matatuAdmin)
+                val result = response.body()
+                if(response.isSuccessful && result != null && !result.isNullOrEmpty()){
+                    OperationStatus.Success(result)
+                }else{
+                    OperationStatus.Error(response.message())
+                }
+            }else{
+                OperationStatus.Error("An error occurred, check your internet connection")
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun registerDriver(driver: Driver, password: String): OperationStatus<String> {
