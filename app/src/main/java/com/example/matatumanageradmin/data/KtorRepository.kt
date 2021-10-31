@@ -164,7 +164,18 @@ class KtorRepository @Inject constructor(
         startDate: String,
         endDate: String
     ): OperationStatus<List<Trip>> {
-        TODO("Not yet implemented")
+        return  try{
+            val response = api.getTrips("", id, startDate, endDate)
+            val result = response.body()
+            if(response.isSuccessful && !result!!.isEmpty()!!){
+                OperationStatus.Success(result)
+            }else{
+                OperationStatus.Error(response.message())
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun getStats(
@@ -173,7 +184,18 @@ class KtorRepository @Inject constructor(
         startDate: String,
         endDate: String
     ): OperationStatus<List<Statistics>> {
-        TODO("Not yet implemented")
+        return  try{
+            val response = api.getStats("", id, startDate, endDate)
+            val result = response.body()
+            if(response.isSuccessful && !result!!.isEmpty()!!){
+                OperationStatus.Success(result)
+            }else{
+                OperationStatus.Error(response.message())
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun getExpenses(
@@ -182,6 +204,17 @@ class KtorRepository @Inject constructor(
         startDate: String,
         endDate: String
     ): OperationStatus<List<Expense>> {
-        TODO("Not yet implemented")
+        return  try{
+            val response = api.getExpenses("", id, startDate, endDate)
+            val result = response.body()
+            if(response.isSuccessful && !result!!.isEmpty()!!){
+                OperationStatus.Success(result)
+            }else{
+                OperationStatus.Error(response.message())
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 }
