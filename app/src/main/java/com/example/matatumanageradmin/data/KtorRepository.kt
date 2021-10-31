@@ -84,7 +84,18 @@ class KtorRepository @Inject constructor(
     }
 
     override suspend fun getAdmin(uId: String): OperationStatus<MatAdmin> {
+        return  try{
+            val response = api.getAdmin(uId)
+            val result = response.body()
+            if(response.isSuccessful && result != null){
+                OperationStatus.Success(result)
+            }else{
+                OperationStatus.Error(response.message())
+            }
 
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun getDrivers(uId: String): OperationStatus<List<Driver>> {
@@ -96,11 +107,33 @@ class KtorRepository @Inject constructor(
     }
 
     override suspend fun getDriver(driverId: String): OperationStatus<Driver> {
-        TODO("Not yet implemented")
+        return  try{
+            val response = api.getDrivers("", driverId)
+            val result = response.body()
+            if(response.isSuccessful && !result!!.isEmpty()!!){
+                OperationStatus.Success(result[0])
+            }else{
+                OperationStatus.Error(response.message())
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun getBus(plate: String): OperationStatus<Bus> {
-        TODO("Not yet implemented")
+        return  try{
+            val response = api.getBus("", plate)
+            val result = response.body()
+            if(response.isSuccessful && !result!!.isEmpty()!!){
+                OperationStatus.Success(result[0])
+            }else{
+                OperationStatus.Error(response.message())
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun getTrips(
