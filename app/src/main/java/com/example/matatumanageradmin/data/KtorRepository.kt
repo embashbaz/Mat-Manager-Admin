@@ -49,7 +49,24 @@ class KtorRepository @Inject constructor(
     }
 
     override suspend fun registerDriver(driver: Driver, password: String): OperationStatus<String> {
-        TODO("Not yet implemented")
+        return try {
+
+            var uId = mAuth.createUserWithEmailAndPassword(driver.email, password).await().user!!.uid
+            if (!!uId.isEmpty()){
+                val response = api.createDriver(driver)
+                val result = response.body()
+                if(response.isSuccessful && result != null && !result.isNullOrEmpty()){
+                    OperationStatus.Success(result)
+                }else{
+                    OperationStatus.Error(response.message())
+                }
+            }else{
+                OperationStatus.Error("An error occurred, check your internet connection")
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun addTrip(trip: Trip): OperationStatus<String> {
