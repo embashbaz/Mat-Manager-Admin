@@ -13,12 +13,8 @@ interface MatManagerApi {
     @POST(CREATE_MAT_ADMIN)
     suspend fun createMatAdmin(@Body admin: MatAdmin): Response<String>
 
-    //@POST(CREATE_STATS)
-
-
     @POST(CREATE_DRIVERS)
     suspend fun createDriver(@Body driver: Driver): Response<String>
-
 
     @POST(CREATE_BUSES)
     suspend fun createBus(@Body bus: Bus): Response<String>
@@ -29,11 +25,13 @@ interface MatManagerApi {
     @POST(CREATE_EXPENSES)
     suspend fun createExpense(@Body expense: Expense): Response<String>
 
+
     @POST(UPDATE_BUSES)
     suspend fun updateBus(@Body bus: Bus): Response<String>
 
     @POST(UPDATE_TRIPS)
     suspend fun updateTrip(@Body trip: Trip): Response<String>
+
 
     @GET(MAT_ADMIN)
     suspend fun getAdmin(

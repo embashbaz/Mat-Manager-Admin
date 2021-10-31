@@ -24,11 +24,33 @@ class KtorRepository @Inject constructor(
     }
 
     override suspend fun addTrip(trip: Trip): OperationStatus<String> {
-        TODO("Not yet implemented")
+        return  try{
+            val response = api.createTrip(trip)
+            val result = response.body()
+            if(response.isSuccessful && result != null && !result.isNullOrEmpty()){
+                OperationStatus.Success(result)
+            }else{
+                OperationStatus.Error(response.message())
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun addMatatu(matatu: Bus): OperationStatus<String> {
-        TODO("Not yet implemented")
+        return  try{
+            val response = api.createBus(matatu)
+            val result = response.body()
+            if(response.isSuccessful && result != null && !result.isNullOrEmpty()){
+                OperationStatus.Success(result)
+            }else{
+                OperationStatus.Error(response.message())
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun updateBus(bus: Bus): OperationStatus<String> {
@@ -48,6 +70,14 @@ class KtorRepository @Inject constructor(
     }
 
     override suspend fun getBuses(uId: String): OperationStatus<List<Bus>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getDriver(driverId: String): OperationStatus<Driver> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getBus(plate: String): OperationStatus<Bus> {
         TODO("Not yet implemented")
     }
 

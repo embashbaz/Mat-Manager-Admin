@@ -19,6 +19,8 @@ interface MainRepository {
     suspend fun getAdmin(uId: String): OperationStatus<MatAdmin>
     suspend fun getDrivers(uId: String): OperationStatus<List<Driver>>
     suspend fun getBuses(uId: String): OperationStatus<List<Bus>>
+    suspend fun getDriver(driverId: String ): OperationStatus<Driver>
+    suspend fun getBus(plate: String): OperationStatus<Bus>
 
     suspend fun getTrips(type: String, id: String, startDate: String, endDate: String): OperationStatus<List<Trip>>
     suspend fun getStats(type: String, id: String, startDate: String, endDate: String): OperationStatus<List<Statistics>>
