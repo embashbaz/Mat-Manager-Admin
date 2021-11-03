@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.matatumanageradmin.ui.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_matManagerRegistrationFragment"
+            app:destination="@id/matManagerRegistrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.matatumanageradmin.ui.dashboard.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_matManagerRegistrationFragment"
+            app:destination="@id/matManagerRegistrationFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_driverListFragment"
+            app:destination="@id/driverListFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_busListFragment"
+            app:destination="@id/busListFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_issueFragment"
+            app:destination="@id/issueFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_trackingFragment"
+            app:destination="@id/trackingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/matManagerRegistrationFragment"
+        android:name="com.example.matatumanageradmin.ui.matAdminRegistration.MatManagerRegistrationFragment"
+        android:label="fragment_mat_manager_registration"
+        tools:layout="@layout/fragment_mat_manager_registration" />
+    <fragment
+        android:id="@+id/driverListFragment"
+        android:name="com.example.matatumanageradmin.ui.driverList.DriverListFragment"
+        android:label="fragment_driver_list"
+        tools:layout="@layout/fragment_driver_list" >
+        <action
+            android:id="@+id/action_driverListFragment_to_driverDetailFragment"
+            app:destination="@id/driverDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/busListFragment"
+        android:name="com.example.matatumanageradmin.ui.busList.BusListFragment"
+        android:label="fragment_bus_list"
+        tools:layout="@layout/fragment_bus_list" >
+        <action
+            android:id="@+id/action_busListFragment_to_busDetailFragment"
+            app:destination="@id/busDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/driverDetailFragment"
+        android:name="com.example.matatumanageradmin.ui.driverDetail.DriverDetailFragment"
+        android:label="fragment_driver_detail"
+        tools:layout="@layout/fragment_driver_detail" >
+        <action
+            android:id="@+id/action_driverDetailFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
+        <action
+            android:id="@+id/action_driverDetailFragment_to_tripFragment"
+            app:destination="@id/tripFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/busDetailFragment"
+        android:name="com.example.matatumanageradmin.ui.busDetail.BusDetailFragment"
+        android:label="fragment_bus_detail"
+        tools:layout="@layout/fragment_bus_detail" >
+        <action
+            android:id="@+id/action_busDetailFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
+        <action
+            android:id="@+id/action_busDetailFragment_to_tripFragment"
+            app:destination="@id/tripFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.example.matatumanageradmin.ui.stat.StatisticsFragment"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" />
+    <fragment
+        android:id="@+id/tripFragment"
+        android:name="com.example.matatumanageradmin.ui.trip.TripFragment"
+        android:label="fragment_trip"
+        tools:layout="@layout/fragment_trip" />
+    <fragment
+        android:id="@+id/issueFragment"
+        android:name="com.example.matatumanageradmin.ui.issues.IssueFragment"
+        android:label="fragment_issue"
+        tools:layout="@layout/fragment_issue" >
+        <action
+            android:id="@+id/action_issueFragment_to_driverDetailFragment"
+            app:destination="@id/driverDetailFragment" />
+        <action
+            android:id="@+id/action_issueFragment_to_busDetailFragment"
+            app:destination="@id/busDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackingFragment"
+        android:name="com.example.matatumanageradmin.ui.tracking.TrackingFragment"
+        android:label="fragment_tracking"
+        tools:layout="@layout/fragment_tracking" >
+        <action
+            android:id="@+id/action_trackingFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
+        <action
+            android:id="@+id/action_trackingFragment_to_tripFragment"
+            app:destination="@id/tripFragment" />
+        <action
+            android:id="@+id/action_trackingFragment_to_statisticsFragment2"
+            app:destination="@id/statisticsFragment" />
+        <action
+            android:id="@+id/action_trackingFragment_to_tripFragment2"
+            app:destination="@id/tripFragment" />
+        <action
+            android:id="@+id/action_trackingFragment_to_driverDetailFragment"
+            app:destination="@id/driverDetailFragment" />
+        <action
+            android:id="@+id/action_trackingFragment_to_busDetailFragment"
+            app:destination="@id/busDetailFragment" />
+    </fragment>
+</navigation>

@@ -1,6 +1,5 @@
 package com.example.matatumanageradmin.di
 
-import com.example.matatumanageradmin.data.FirebaseRepository
 import com.example.matatumanageradmin.data.KtorRepository
 import com.example.matatumanageradmin.data.MainRepository
 import com.example.matatumanageradmin.data.MatManagerApi
@@ -27,9 +26,9 @@ object AppModule {
     @Provides
     fun provideFirebaseAuth() = FirebaseAuth.getInstance()
 
-    @Singleton
-    @Provides
-    fun provideMainRepository(firestore: FirebaseFirestore, auth: FirebaseAuth, uId: String?): MainRepository = FirebaseRepository(firestore, auth, uId)
+    //@Singleton
+    //@Provides
+   // fun provideMainRepository(firestore: FirebaseFirestore, auth: FirebaseAuth, uId: String?): MainRepository = FirebaseRepository(firestore, auth, uId)
 
     @Singleton
     @Provides

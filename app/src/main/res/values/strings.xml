@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Matatu Manager Admin</string>
+    <string name="hello_blank_fragment"> This has not been implemente yet</string>
 </resources>
