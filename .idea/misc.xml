@@ -5,6 +5,8 @@
       <map>
         <entry key="app/src/main/res/layout/fragment_bus_detail.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1515625" />
+        <entry key="app/src/main/res/layout/fragment_mat_manager_registration.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_trip.xml" value="0.1" />
       </map>
     </option>
