@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_bar_chart_24.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/fragment_bus_detail.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_driver_detail.xml" value="0.25" />
