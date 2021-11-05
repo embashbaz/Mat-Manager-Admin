@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/busListFragment"
-        android:name="com.example.matatumanageradmin.ui.busList.BusListFragment"
+        android:name="com.example.matatumanageradmin.ui.fleetList.BusListFragment"
         android:label="fragment_bus_list"
         tools:layout="@layout/fragment_bus_list" >
         <action

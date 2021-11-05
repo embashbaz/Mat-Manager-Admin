@@ -1,4 +1,4 @@
-package com.example.matatumanageradmin.ui.busList
+package com.example.matatumanageradmin.ui.fleetList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.example.matatumanageradmin.R
 
 
-class BusListFragment : Fragment() {
+class FleetListFragment : Fragment() {
 
 
     override fun onCreateView(
