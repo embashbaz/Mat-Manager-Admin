@@ -16,7 +16,7 @@ class FleetListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bus_list, container, false)
+        return inflater.inflate(R.layout.fragment_fleet_list, container, false)
     }
 
 

@@ -55,7 +55,7 @@
         android:id="@+id/busListFragment"
         android:name="com.example.matatumanageradmin.ui.fleetList.BusListFragment"
         android:label="fragment_bus_list"
-        tools:layout="@layout/fragment_bus_list" >
+        tools:layout="@layout/fragment_fleet_list" >
         <action
             android:id="@+id/action_busListFragment_to_busDetailFragment"
             app:destination="@id/busDetailFragment" />
