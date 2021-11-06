@@ -263,4 +263,12 @@ class KtorRepository @Inject constructor(
             OperationStatus.Error(e.message ?: "An error occurred")
         }
     }
+
+    override suspend fun getDriverByName(stringQuery: String): OperationStatus<Driver> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getBusesByPlate(stringQuery: String): OperationStatus<List<Bus>> {
+        TODO("Not yet implemented")
+    }
 }

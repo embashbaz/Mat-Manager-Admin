@@ -52,6 +52,7 @@
                     android:gravity="center_horizontal"
                     android:text="Track"
                     android:textAlignment="center"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -87,6 +88,7 @@
                     android:gravity="center_horizontal"
                     android:text="Fleet"
                     android:textAlignment="center"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -121,8 +123,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="issues"
+                    android:text="Issues"
                     android:textAlignment="center"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -159,6 +162,7 @@
                     android:gravity="center_horizontal"
                     android:text="Profile"
                     android:textAlignment="center"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

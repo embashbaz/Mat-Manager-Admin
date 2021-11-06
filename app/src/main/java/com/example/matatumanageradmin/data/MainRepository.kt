@@ -26,6 +26,7 @@ interface MainRepository {
     suspend fun getStats(type: String, id: String, startDate: String, endDate: String): OperationStatus<List<Statistics>>
     suspend fun getExpenses(type: String, id: String, startDate: String, endDate: String): OperationStatus<List<Expense>>
 
-
+    suspend fun getDriverByName(stringQuery: String): OperationStatus<Driver>
+    suspend fun getBusesByPlate(stringQuery: String): OperationStatus<List<Bus>>
 
 }
