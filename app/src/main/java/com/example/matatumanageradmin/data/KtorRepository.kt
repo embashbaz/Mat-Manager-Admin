@@ -32,6 +32,7 @@ class KtorRepository @Inject constructor(
 
             var uId = mAuth.createUserWithEmailAndPassword(matatuAdmin.email, password).await().user!!.uid
             if (!!uId.isEmpty()){
+                matatuAdmin.matAdminId = uId
                 val response = api.createMatAdmin(matatuAdmin)
                 val result = response.body()
                 if(response.isSuccessful && result != null && !result.isNullOrEmpty()){

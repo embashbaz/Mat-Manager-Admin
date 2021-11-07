@@ -3,6 +3,7 @@ package com.example.matatumanageradmin.data
 import kotlinx.serialization.Serializable
 
 @Serializable
+
 data class MatAdmin(
     var matAdminId: String ="",
     var name: String = "",
@@ -18,12 +19,12 @@ data class MatAdmin(
 
     )
 
-@Serializable
 data class Driver(
     var driverId: String = "",
     var managerId: String = "",
     var cardId : String = "",
     var permitNumber: String = "",
+    var pictureLink : String = "",
     var permitLink: String = "",
     var name: String = "",
     var email: String = "",
@@ -35,12 +36,14 @@ data class Driver(
 
 )
 
-@Serializable
 data class Bus(
     var plate: String = "",
     var managerId: String = "",
     var identifier: String = "",
     var carModel : String = "",
+    var docLink: String = "",
+    var pickupPoint: String = "",
+    var picture: String = "",
     var pathPoints: String = "",
     var locationLat: Double = 0.0,
     var locationLng: Double = 0.0,
@@ -50,13 +53,13 @@ data class Bus(
 
 )
 
-@Serializable
 data class Trip(
     var tripId: String = "",
     var date: String = "",
     var busPlate: String = "",
     var driverId: String = "",
     var pathPoints: String = "",
+    var pickupPoint: String = "",
     var moneyCollected: Double = 0.0,
     var timeStarted: String = "",
     var timeEnded: String = "",
@@ -64,22 +67,24 @@ data class Trip(
     var comment: String = ""
 )
 
-@Serializable
 data class Statistics(
     var dayId: String = "",
     var busPlate: String = "",
     var driverId: String = "",
     var pathPoints: String = "",
+    var locationLat: Double = 0.0,
+    var locationLng: Double = 0.0,
     var timeStarted: String = "",
+    var distance: Double = 0.0,
     var timeEnded: String = "",
     var maxSpeed: Double = 0.0,
     var comment: String = ""
 )
 
-@Serializable
 data class Expense(
     var expenseId: String = "",
     var date: String = "",
+    var status: String = "",
     var busPlate: String = "",
     var driverId: String = "",
     var amount: Double = 0.0,
