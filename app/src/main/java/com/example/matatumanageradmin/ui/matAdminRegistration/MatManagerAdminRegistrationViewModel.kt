@@ -9,10 +9,6 @@ import com.example.matatumanageradmin.data.MatAdmin
 import com.example.matatumanageradmin.utils.DispatcherProvider
 import com.example.matatumanageradmin.utils.OperationStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.grpc.internal.SharedResourceHolder
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.round
@@ -70,6 +66,7 @@ class MatManagerAdminRegistrationViewModel @Inject
                        when(val result =  repository.registerAdmin(admin, password)){
                            is OperationStatus.Error -> _registrationstate.postValue(RegistrationStatus.Failed(result.message!!))
                            is OperationStatus.Success -> _registrationstate.postValue(RegistrationStatus.Success("Registration Successful "))
+
                        }
 
 
