@@ -147,7 +147,7 @@ class KtorRepository @Inject constructor(
 
     override suspend fun getDrivers(uId: String): OperationStatus<List<Driver>> {
         return  try{
-            val response = api.getDrivers("", uId)
+            val response = api.getDrivers("", uId, "")
             val result = response.body()
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result)
@@ -162,7 +162,7 @@ class KtorRepository @Inject constructor(
 
     override suspend fun getBuses(uId: String): OperationStatus<List<Bus>> {
         return  try{
-            val response = api.getBus("", uId)
+            val response = api.getBus("", uId, "")
             val result = response.body()
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result)
@@ -177,7 +177,7 @@ class KtorRepository @Inject constructor(
 
     override suspend fun getDriver(driverId: String): OperationStatus<Driver> {
         return  try{
-            val response = api.getDrivers("", driverId)
+            val response = api.getDrivers("", driverId, "")
             val result = response.body()
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result[0])
@@ -192,7 +192,7 @@ class KtorRepository @Inject constructor(
 
     override suspend fun getBus(plate: String): OperationStatus<Bus> {
         return  try{
-            val response = api.getBus("", plate)
+            val response = api.getBus("", plate, "")
             val result = response.body()
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result[0])
@@ -265,11 +265,39 @@ class KtorRepository @Inject constructor(
         }
     }
 
-    override suspend fun getDriverByName(stringQuery: String): OperationStatus<Driver> {
-        TODO("Not yet implemented")
+    override suspend fun getDriverWithQuery(
+        stringQuery: String,
+        adminId: String
+    ): OperationStatus<List<Driver>> {
+        return  try{
+            val response = api.getDrivers("", adminId, stringQuery)
+            val result = response.body()
+            if(response.isSuccessful && !result!!.isEmpty()!!){
+                OperationStatus.Success(result)
+            }else{
+                OperationStatus.Error(response.message())
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 
-    override suspend fun getBusesByPlate(stringQuery: String): OperationStatus<List<Bus>> {
-        TODO("Not yet implemented")
+    override suspend fun getBusesWithQuery(
+        stringQuery: String,
+        adminId: String
+    ): OperationStatus<List<Bus>> {
+        return  try{
+            val response = api.getBus("", adminId, stringQuery)
+            val result = response.body()
+            if(response.isSuccessful && !result!!.isEmpty()!!){
+                OperationStatus.Success(result)
+            }else{
+                OperationStatus.Error(response.message())
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
     }
 }

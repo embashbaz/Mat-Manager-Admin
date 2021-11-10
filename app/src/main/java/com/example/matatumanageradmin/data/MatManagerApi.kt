@@ -42,14 +42,16 @@ interface MatManagerApi {
     @GET(DRIVERS)
     suspend fun getDrivers(
         @Query("type") type: String,
-        @Query("id") adminId: String
+        @Query("id") adminId: String,
+        @Query("id") stringQuery: String
 
     ): Response<List<Driver>>
 
     @GET(BUSES)
     suspend fun getBus(
         @Query("type") type: String,
-        @Query("id") adminId: String
+        @Query("id") adminId: String,
+        @Query("id") stringQuery: String
 
     ): Response<List<Bus>>
 

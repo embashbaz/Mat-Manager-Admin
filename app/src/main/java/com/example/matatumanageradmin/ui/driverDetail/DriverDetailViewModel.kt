@@ -10,9 +10,11 @@ import com.example.matatumanageradmin.data.MatAdmin
 import com.example.matatumanageradmin.ui.matAdminRegistration.MatManagerAdminRegistrationViewModel
 import com.example.matatumanageradmin.utils.DispatcherProvider
 import com.example.matatumanageradmin.utils.OperationStatus
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class DriverDetailViewModel @Inject
 constructor(private var repository: MainRepository,
             private val dispatcher: DispatcherProvider
