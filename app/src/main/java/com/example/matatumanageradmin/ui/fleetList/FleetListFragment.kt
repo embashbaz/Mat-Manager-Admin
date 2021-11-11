@@ -8,7 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.matatumanageradmin.R
+import com.example.matatumanageradmin.data.Bus
+import com.example.matatumanageradmin.data.Driver
+import com.example.matatumanageradmin.databinding.FleetItemBinding
 import com.example.matatumanageradmin.databinding.FragmentFleetListBinding
 import kotlinx.android.synthetic.main.fragment_fleet_list.*
 
@@ -20,6 +24,7 @@ class FleetListFragment : Fragment() {
     private lateinit var fleetListBinding: FragmentFleetListBinding
     private val fleetListViewModel: FleetListViewModel by viewModels()
     private var adminId = ""
+    private lateinit var  fleetListAdapter: FleetListAdapter
     
 
     override fun onCreateView(
@@ -33,6 +38,87 @@ class FleetListFragment : Fragment() {
         fleetListViewModel.getAllData(adminId)
         listenToTextChangeSearchEt()
 
+        fleetListAdapter =FleetListAdapter{item -> moveToDetail(item)  }
+
+        observeDataFromViewModel()
+
+        navigationSelection()
+
+        return view
+    }
+
+    fun observeDataFromViewModel(){
+        fleetListViewModel.busOrDriverList.observe(viewLifecycleOwner, {
+            if (it){
+                fleetListViewModel.driverList.observe(viewLifecycleOwner, {
+                    when(it){
+                        is FleetListViewModel.DriverListStatus.Loading -> {
+                            enableProgressBar()
+                        }
+
+                        is FleetListViewModel.DriverListStatus.Empty -> {
+                           disableProgressBar()
+                            enableNoDataTxt()
+                        }
+
+                        is FleetListViewModel.DriverListStatus.Success -> {
+                            disableProgressBar()
+                            fleetListAdapter.setData(it.drivers as ArrayList<Any>)
+                            setRecyclerView()
+                        }
+
+
+                    }
+                })
+            }else{
+                fleetListViewModel.busList.observe(viewLifecycleOwner, {
+                    when(it){
+                        is FleetListViewModel.BusListStatus.Loading -> {
+                            enableProgressBar()
+                        }
+                        is FleetListViewModel.BusListStatus.Failed -> {
+                            disableProgressBar()
+                            enableNoDataTxt()
+                        }
+
+                        is FleetListViewModel.BusListStatus.Success -> {
+
+                            disableProgressBar()
+                            fleetListAdapter.setData(it.buses as ArrayList<Any>)
+                            setRecyclerView()
+
+                        }
+
+                    }
+
+                })
+
+            }
+
+
+        })
+
+
+    }
+
+    private fun enableNoDataTxt() {
+        fleetListBinding.noDataFleetListTxt.visibility = View.VISIBLE
+    }
+
+    fun disableProgressBar(){
+        fleetListBinding.fleetListProgressBar.visibility = View.INVISIBLE
+    }
+
+    fun enableProgressBar(){
+        fleetListBinding.fleetListProgressBar.visibility = View.VISIBLE
+    }
+
+    fun setRecyclerView(){
+        fleetListBinding.recyclerviewFleetList.layoutManager = LinearLayoutManager(activity)
+        fleetListBinding.recyclerviewFleetList.adapter = fleetListAdapter
+    }
+
+    fun navigationSelection(){
         bottomNavigationView.setOnClickListener {
             when(it.id){
                 R.id.bottom_nav_bus -> {
@@ -47,8 +133,14 @@ class FleetListFragment : Fragment() {
             }
 
         }
+    }
 
-        return view
+    private fun moveToDetail(item: Any) {
+        if(item is Bus){
+
+        }else if(item is Driver){
+
+        }
     }
 
     private fun listenToTextChangeSearchEt(){

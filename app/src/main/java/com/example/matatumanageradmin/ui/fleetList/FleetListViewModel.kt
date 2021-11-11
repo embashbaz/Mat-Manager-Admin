@@ -153,7 +153,7 @@ constructor(private var repository: MainRepository,
     }
 
     sealed class DriverListStatus{
-        class Success(val resultText: String, val buses: List<Driver>): DriverListStatus()
+        class Success(val resultText: String, val drivers: List<Driver>): DriverListStatus()
         class Failed(val errorText: String): DriverListStatus()
         object Loading: DriverListStatus()
         object Empty: DriverListStatus()
