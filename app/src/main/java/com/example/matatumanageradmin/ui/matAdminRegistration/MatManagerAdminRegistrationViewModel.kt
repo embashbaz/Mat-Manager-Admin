@@ -70,7 +70,6 @@ class MatManagerAdminRegistrationViewModel @Inject
                        }
 
 
-
                     }
 
                 }else{

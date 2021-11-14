@@ -1,5 +1,6 @@
 package com.example.matatumanageradmin.data
 
+import com.example.matatumanageradmin.utils.Constant
 import com.example.matatumanageradmin.utils.OperationStatus
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
@@ -14,7 +15,7 @@ class KtorRepository @Inject constructor(
 
             var uId = mAuth.signInWithEmailAndPassword(email, password).await().user!!.uid
             if (!!uId.isNullOrEmpty()){
-                getAdmin(uId)
+                return getAdmin(uId)
             }else{
                 OperationStatus.Error("Pleas make sure the account exit")
             }
@@ -147,7 +148,7 @@ class KtorRepository @Inject constructor(
 
     override suspend fun getDrivers(uId: String): OperationStatus<List<Driver>> {
         return  try{
-            val response = api.getDrivers("", uId, "")
+            val response = api.getDrivers(Constant.LIST_DRIVERS, uId, "")
             val result = response.body()
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result)
@@ -162,7 +163,7 @@ class KtorRepository @Inject constructor(
 
     override suspend fun getBuses(uId: String): OperationStatus<List<Bus>> {
         return  try{
-            val response = api.getBus("", uId, "")
+            val response = api.getBus(Constant.LIST_BUSES, uId, "")
             val result = response.body()
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result)
@@ -270,7 +271,7 @@ class KtorRepository @Inject constructor(
         adminId: String
     ): OperationStatus<List<Driver>> {
         return  try{
-            val response = api.getDrivers("", adminId, stringQuery)
+            val response = api.getDrivers(Constant.DRIVERS_QUERY, adminId, stringQuery)
             val result = response.body()
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result)
@@ -288,7 +289,7 @@ class KtorRepository @Inject constructor(
         adminId: String
     ): OperationStatus<List<Bus>> {
         return  try{
-            val response = api.getBus("", adminId, stringQuery)
+            val response = api.getBus(Constant.BUSES_QUERY, adminId, stringQuery)
             val result = response.body()
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result)
