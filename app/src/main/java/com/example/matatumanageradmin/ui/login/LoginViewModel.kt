@@ -25,6 +25,14 @@ class LoginViewModel @Inject
     val loginStatus: LiveData<LoginStatus>
             get() = _loginStatus
 
+    private var _registerButtonClicked = MutableLiveData(false)
+    val registerButtonClicked: LiveData<Boolean>
+            get() = _registerButtonClicked
+
+    fun setToRegsterButtonClicked(boolean: Boolean){
+        _registerButtonClicked.value = boolean
+    }
+
     fun loginMethod(email: String, password: String){
         if (email.isNotEmpty() && password.isNotEmpty())
             viewModelScope.launch(dispatcher.io) {

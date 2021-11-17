@@ -31,6 +31,8 @@ class MatManagerAdminRegistrationViewModel @Inject
 
 
 
+
+
     fun changeToProfileType(){
         _registerOrProfile.value = true
     }

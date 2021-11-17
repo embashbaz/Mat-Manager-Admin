@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.databinding.FragmentLoginBinding
 import com.example.matatumanageradmin.utils.stringFromTl
@@ -26,8 +27,24 @@ class LoginFragment : Fragment() {
 
         login()
         observeLoginStatus()
+        observeRegisterButton()
+        onRegisterButtonClicked()
 
         return view
+    }
+
+    private fun onRegisterButtonClicked() {
+        loginBinding.registerLogin.setOnClickListener {
+            loginViewModel.setToRegsterButtonClicked(true)
+        }
+    }
+
+    private fun observeRegisterButton() {
+        loginViewModel.registerButtonClicked.observe(viewLifecycleOwner, {
+            if (it){
+                this.findNavController().navigate(R.id.action_loginFragment_to_matManagerRegistrationFragment)
+            }
+        })
     }
 
     fun login(){
@@ -46,7 +63,7 @@ class LoginFragment : Fragment() {
 
                 }
                 is LoginViewModel.LoginStatus.Success -> {
-
+                    this.findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
                 }
             }
         })

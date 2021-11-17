@@ -1,8 +1,7 @@
 package com.example.matatumanageradmin.data
 
-import kotlinx.serialization.Serializable
-
-@Serializable
+//import kotlinx.serialization.Serializable
+import java.io.Serializable
 
 data class MatAdmin(
     var matAdminId: String ="",
@@ -17,7 +16,7 @@ data class MatAdmin(
     var comment: String = "",
     var dateCreated: String = "",
 
-    )
+    ): Serializable
 
 data class Driver(
     var driverId: String = "",
@@ -34,7 +33,7 @@ data class Driver(
     var comment: String = "",
     val dateCreated: String = ""
 
-)
+): Serializable
 
 data class Bus(
     var plate: String = "",
@@ -76,6 +75,8 @@ data class Statistics(
     var locationLng: Double = 0.0,
     var timeStarted: String = "",
     var distance: Double = 0.0,
+    var amount: Double = 0.0,
+    var expense: Double = 0.0,
     var timeEnded: String = "",
     var maxSpeed: Double = 0.0,
     var comment: String = ""
@@ -90,4 +91,15 @@ data class Expense(
     var amount: Double = 0.0,
     var reason: String = "",
     var comment: String = ""
+)
+
+data class Issue(
+    var issueId: String = "",
+    var date: String = "",
+    var status: String = "",
+    var busPlate: String = "",
+    var driverId: String = "",
+    var reason: String = "",
+    var comment: String = ""
+
 )
