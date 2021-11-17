@@ -36,7 +36,7 @@ class KtorRepository @Inject constructor(
                 matatuAdmin.matAdminId = uId
                 val response = api.createMatAdmin(matatuAdmin)
                 val result = response.body()
-                if(response.isSuccessful && result != null && !result.toString().isNullOrEmpty()){
+                if(response.isSuccessful && result != null && result.has("success")){
                     OperationStatus.Success(result.toString())
                 }else{
                     OperationStatus.Error(response.message())
@@ -54,7 +54,7 @@ class KtorRepository @Inject constructor(
         return try {
 
             var uId = mAuth.createUserWithEmailAndPassword(driver.email, password).await().user!!.uid
-            if (!!uId.isEmpty()){
+            if (!uId.isEmpty()){
                 val response = api.createDriver(driver)
                 val result = response.body()
                 if(response.isSuccessful && result != null && !result.isNullOrEmpty()){
@@ -75,8 +75,8 @@ class KtorRepository @Inject constructor(
         return  try{
             val response = api.createTrip(trip)
             val result = response.body()
-            if(response.isSuccessful && result != null && !result.isNullOrEmpty()){
-                OperationStatus.Success(result)
+            if(response.isSuccessful && result != null && result.has("success")){
+                OperationStatus.Success(result.toString())
             }else{
                 OperationStatus.Error(response.message())
             }
@@ -90,8 +90,8 @@ class KtorRepository @Inject constructor(
         return  try{
             val response = api.createBus(matatu)
             val result = response.body()
-            if(response.isSuccessful && result != null && !result.isNullOrEmpty()){
-                OperationStatus.Success(result)
+            if(response.isSuccessful && result != null && result.has("success")){
+                OperationStatus.Success(result.toString())
             }else{
                 OperationStatus.Error(response.message())
             }

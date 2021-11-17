@@ -18,10 +18,10 @@ interface MatManagerApi {
     suspend fun createDriver(@Body driver: Driver): Response<String>
 
     @POST(CREATE_BUSES)
-    suspend fun createBus(@Body bus: Bus): Response<String>
+    suspend fun createBus(@Body bus: Bus): Response<JsonObject>
 
     @POST(CREATE_TRIPS)
-    suspend fun createTrip(@Body trip: Trip): Response<String>
+    suspend fun createTrip(@Body trip: Trip): Response<JsonObject>
 
     @POST(CREATE_EXPENSES)
     suspend fun createExpense(@Body expense: Expense): Response<String>
