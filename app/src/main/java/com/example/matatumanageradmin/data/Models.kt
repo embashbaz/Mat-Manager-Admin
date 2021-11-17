@@ -1,22 +1,23 @@
 package com.example.matatumanageradmin.data
 
 //import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class MatAdmin(
-    var matAdminId: String ="",
-    var name: String = "",
-    var email: String = "",
-    var phoneNumber: Long = 0L,
-    var address: String = "",
-    var licenseType: String = "",
-    var licenseNumber: String = "",
-    var licenseLink: String = "",
-    var status: String = "",
-    var comment: String = "",
-    var dateCreated: String = "",
+    @SerializedName("matAdminId") var matAdminId: String ="",
+    @SerializedName("name") var name: String = "",
+    @SerializedName("email") var email: String = "",
+    @SerializedName("phoneNumber") var phoneNumber: Long = 0L,
+    @SerializedName("address") var address: String = "",
+    @SerializedName("licenseType") var licenseType: String = "",
+    @SerializedName("licenseNumber")var licenseNumber: String = "",
+    @SerializedName("licenseLink")var licenseLink: String = "",
+    @SerializedName("status")var status: String = "",
+    @SerializedName("comment")var comment: String = "",
+    @SerializedName("dateCreated") var dateCreated: String = "",
 
-    ): Serializable
+    )
 
 data class Driver(
     var driverId: String = "",

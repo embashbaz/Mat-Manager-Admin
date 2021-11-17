@@ -1,6 +1,7 @@
 package com.example.matatumanageradmin.ui.matAdminRegistration
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,9 @@ import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.databinding.FragmentMatManagerRegistrationBinding
 import com.example.matatumanageradmin.ui.dialog.NoticeDialogFragment
 import com.example.matatumanageradmin.utils.stringFromTl
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MatManagerRegistrationFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
 
     private lateinit var matManagerRegistrationFragmentBinding: FragmentMatManagerRegistrationBinding
@@ -42,8 +44,12 @@ class MatManagerRegistrationFragment : Fragment(), NoticeDialogFragment.NoticeDi
 
         adminRegisterViewModel.registrationstate.observe(viewLifecycleOwner, {
             when(it){
-                is MatManagerAdminRegistrationViewModel.RegistrationStatus.Success -> openNoticeDialog("Ok", it.resultText)
-                is MatManagerAdminRegistrationViewModel.RegistrationStatus.Failed -> openNoticeDialog("Ok", it.errorText)
+                is MatManagerAdminRegistrationViewModel.RegistrationStatus.Success -> {openNoticeDialog("Ok", it.resultText)}
+                is MatManagerAdminRegistrationViewModel.RegistrationStatus.Failed -> {
+                    openNoticeDialog("Ok", it.errorText)
+                    Log.d("API ERROR", it.errorText)
+
+                }
             }
         })
 

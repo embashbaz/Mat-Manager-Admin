@@ -5,7 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 
-class NoticeDialogFragment(message: String, positiveText: String) : DialogFragment() {
+class NoticeDialogFragment(positiveText: String, message: String) : DialogFragment() {
     // Use this instance of the interface to deliver action events
     internal lateinit var listener: NoticeDialogListener
     val mMessage = message
@@ -17,6 +17,9 @@ class NoticeDialogFragment(message: String, positiveText: String) : DialogFragme
             val builder = AlertDialog.Builder(it)
 
             builder.setMessage(mMessage)
+            builder.setTitle("Notice")
+
+            builder
                 .setPositiveButton(positiveText
                 ) { dialog, id ->
                     // Send the positive button event back to the host activity

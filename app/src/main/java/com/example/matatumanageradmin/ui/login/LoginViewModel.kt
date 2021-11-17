@@ -36,10 +36,10 @@ class LoginViewModel @Inject
     fun loginMethod(email: String, password: String){
         if (email.isNotEmpty() && password.isNotEmpty())
             viewModelScope.launch(dispatcher.io) {
-                _loginStatus.value = LoginStatus.Loading
+                _loginStatus.postValue(LoginStatus.Loading)
                 when (val response = repository.loginAdmin(email, password)){
-                    is OperationStatus.Error -> _loginStatus.value = LoginStatus.Failed(response.message!!)
-                    is OperationStatus.Success -> _loginStatus.value = LoginStatus.Success("Success", null)
+                    is OperationStatus.Error -> _loginStatus.postValue(LoginStatus.Failed(response.message!!))
+                    is OperationStatus.Success -> _loginStatus.postValue(LoginStatus.Success("Success", null))
                 }
 
             }else{

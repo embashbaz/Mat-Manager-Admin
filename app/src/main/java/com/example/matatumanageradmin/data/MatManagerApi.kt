@@ -1,6 +1,7 @@
 package com.example.matatumanageradmin.data
 
 import com.example.util.*
+import com.google.gson.JsonObject
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -11,7 +12,7 @@ interface MatManagerApi {
 
 
     @POST(CREATE_MAT_ADMIN)
-    suspend fun createMatAdmin(@Body admin: MatAdmin): Response<String>
+    suspend fun createMatAdmin(@Body admin: MatAdmin): Response<JsonObject>
 
     @POST(CREATE_DRIVERS)
     suspend fun createDriver(@Body driver: Driver): Response<String>

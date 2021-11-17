@@ -14,7 +14,7 @@ class KtorRepository @Inject constructor(
         return try {
 
             var uId = mAuth.signInWithEmailAndPassword(email, password).await().user!!.uid
-            if (!!uId.isNullOrEmpty()){
+            if (!uId.isNullOrEmpty()){
                 return getAdmin(uId)
             }else{
                 OperationStatus.Error("Pleas make sure the account exit")
@@ -32,12 +32,12 @@ class KtorRepository @Inject constructor(
         return try {
 
             var uId = mAuth.createUserWithEmailAndPassword(matatuAdmin.email, password).await().user!!.uid
-            if (!!uId.isEmpty()){
+            if (!uId.isEmpty()){
                 matatuAdmin.matAdminId = uId
                 val response = api.createMatAdmin(matatuAdmin)
                 val result = response.body()
-                if(response.isSuccessful && result != null && !result.isNullOrEmpty()){
-                    OperationStatus.Success(result)
+                if(response.isSuccessful && result != null && !result.toString().isNullOrEmpty()){
+                    OperationStatus.Success(result.toString())
                 }else{
                     OperationStatus.Error(response.message())
                 }
