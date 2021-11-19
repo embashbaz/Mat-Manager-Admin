@@ -14,6 +14,8 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.matatumanageradmin.R
+import com.example.matatumanageradmin.data.Bus
+import com.example.matatumanageradmin.data.Driver
 import com.example.matatumanageradmin.databinding.FragmentDriverDetailBinding
 import com.example.matatumanageradmin.databinding.FragmentMatManagerRegistrationBinding
 import com.example.matatumanageradmin.ui.dialog.NoticeDialogFragment
@@ -36,6 +38,12 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
 
         driverDetailBinding = FragmentDriverDetailBinding.inflate(inflater, container, false)
         val view = driverDetailBinding.root
+
+        if(arguments?.getString("createOrUpdateDriver")== "update") {
+            driverDetailViewModel.changeToProfileType()
+            arguments?.getParcelable<Driver>("driver")?.let { driverDetailViewModel.setDriverObject( it )  }
+
+        }
 
         driverDetailBinding.driverImageDetail.setOnClickListener { dispatchTakePictureIntent() }
 
@@ -73,7 +81,17 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
     }
 
     private fun populateView() {
+            driverDetailViewModel.profileData.observe(viewLifecycleOwner, {
+               driverDetailBinding.nameRegister.editText!!.setText(it.name)
+                driverDetailBinding.emailRegisterDriverDetailTl.editText!!.setText(it.email)
+                driverDetailBinding.phoneDriverRegisterTl.editText!!.setText(it.phoneNumber.toString())
+                driverDetailBinding.passwordRegisterDriverTl.editText!!.setText("")
+                driverDetailBinding.confirmPasswordDriverTl.editText!!.setText("")
+                driverDetailBinding.addressDriverTl .editText!!.setText(it.address)
+                driverDetailBinding.permitDriverTl.editText!!.setText(it.permitNumber)
+                driverDetailBinding.idNumberDriverTl .editText!!.setText(it.driverId)
 
+            })
     }
 
     private fun changeViewBehaviour() {

@@ -1,8 +1,10 @@
 package com.example.matatumanageradmin.data
 
 //import kotlinx.serialization.Serializable
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
 data class MatAdmin(
     @SerializedName("matAdminId") var matAdminId: String ="",
@@ -19,6 +21,7 @@ data class MatAdmin(
 
     )
 
+@Parcelize
 data class Driver(
     var driverId: String = "",
     var managerId: String = "",
@@ -34,8 +37,9 @@ data class Driver(
     var comment: String = "",
     val dateCreated: String = ""
 
-)
+): Parcelable
 
+@Parcelize
 data class Bus(
     @SerializedName("plate") var plate: String = "",
     @SerializedName("managerId") var managerId: String = "",
@@ -51,7 +55,7 @@ data class Bus(
     @SerializedName("comment") var comment: String = "",
     @SerializedName("dateCreated") var dateCreated: String = "",
 
-)
+): Parcelable
 
 data class Trip(
     var tripId: String = "",

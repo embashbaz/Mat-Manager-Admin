@@ -150,8 +150,16 @@ class FleetListFragment : Fragment() {
 
     private fun moveToDetail(item: Any) {
         if(item is Bus){
+            val bundle = Bundle()
+            bundle.putString("createOrUpdateBus", "update")
+            bundle.putParcelable("bus", item)
+            this.findNavController().navigate(R.id.action_busListFragment_to_busDetailFragment, bundle)
 
         }else if(item is Driver){
+            val bundle = Bundle()
+            bundle.putString("createOrUpdateDriver", "update")
+            bundle.putParcelable("driver", item)
+            this.findNavController().navigate(R.id.action_busListFragment_to_driverDetailFragment, bundle)
 
         }
     }

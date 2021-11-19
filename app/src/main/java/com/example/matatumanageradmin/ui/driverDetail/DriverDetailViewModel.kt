@@ -31,9 +31,15 @@ constructor(private var repository: MainRepository,
         get() = _registerOrProfile
 
     private var _profileData = MutableLiveData<Driver>()
+    val profileData: LiveData<Driver>
+        get() = _profileData
 
     fun changeToProfileType(){
         _registerOrProfile.value = true
+    }
+
+    fun setDriverObject(driver: Driver){
+        _profileData.value = driver
     }
 
     fun getUiData(name: String,

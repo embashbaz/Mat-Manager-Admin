@@ -36,6 +36,10 @@ class BusDetailViewModel  @Inject constructor(val repository: MainRepository,
         _createOrUpdateBus.value = true
     }
 
+    fun setBusObject(bus: Bus){
+        _busObject.value = bus
+    }
+
     fun getDataFromView(
         plate: String,
         identifier: String,

@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.matatumanageradmin.R
+import com.example.matatumanageradmin.data.Bus
 import com.example.matatumanageradmin.databinding.FragmentBusDetailBinding
 import com.example.matatumanageradmin.utils.showLongToast
 import com.example.matatumanageradmin.utils.stringFromTl
@@ -35,8 +36,11 @@ class BusDetailFragment : Fragment() {
         busDetailBinding = FragmentBusDetailBinding.inflate(inflater, container, false)
         val view = busDetailBinding.root
 
-        if(arguments?.getString("createOrUpdateBus")== "update")
+        if(arguments?.getString("createOrUpdateBus")== "update") {
             busDetailViewModel.changeToUpdate()
+            arguments?.getParcelable<Bus>("bus")?.let { busDetailViewModel.setBusObject(it) }
+
+        }
 
         busDetailBinding.busImageDetail.setOnClickListener {
             dispatchTakePictureIntent()
