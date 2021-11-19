@@ -110,14 +110,14 @@ constructor(private var repository: MainRepository,
 
     private fun getAllBuses(){
         viewModelScope.launch(dispatcher.io){
-            _busList.value = BusListStatus.Loading
-            when(val response = repository.getBuses(adminId)){
-                is OperationStatus.Error -> BusListStatus.Failed(response.message!!)
+            _busList.postValue(BusListStatus.Loading)
+            when(val response = repository.getBuses("emerybashige@gmail.com")){
+                is OperationStatus.Error ->  _busList.postValue(BusListStatus.Failed(response.message!!))
                 is OperationStatus.Success -> {
                     if (response.data!!.isEmpty()){
-                        BusListStatus.Failed("No data was returned")
+                        _busList.postValue( BusListStatus.Failed("No data was returned"))
                     }else{
-                        BusListStatus.Success("success", response.data)
+                        _busList.postValue( BusListStatus.Success("success", response.data))
                     }
 
                 }
@@ -128,14 +128,14 @@ constructor(private var repository: MainRepository,
 
     private fun getAllDrivers(){
         viewModelScope.launch(dispatcher.io){
-            _driverList.value = DriverListStatus.Loading
-            when(val response = repository.getDrivers(adminId)){
-                is OperationStatus.Error -> DriverListStatus.Failed(response.message!!)
+            _driverList.postValue(DriverListStatus.Loading)
+            when(val response = repository.getDrivers("emerybashige@gmail.com")){
+                is OperationStatus.Error ->  _driverList.postValue(DriverListStatus.Failed(response.message!!))
                 is OperationStatus.Success -> {
                     if (response.data!!.isEmpty()){
-                        DriverListStatus.Failed("No data was returned")
+                        _driverList.postValue( DriverListStatus.Failed("No data was returned"))
                     }else{
-                        DriverListStatus.Success("success", response.data)
+                        _driverList.postValue(DriverListStatus.Success("success", response.data))
                     }
 
                 }

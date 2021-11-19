@@ -17,8 +17,9 @@ import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.databinding.FragmentBusDetailBinding
 import com.example.matatumanageradmin.utils.showLongToast
 import com.example.matatumanageradmin.utils.stringFromTl
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class BusDetailFragment : Fragment() {
 
     var imageBitmap: Bitmap? = null

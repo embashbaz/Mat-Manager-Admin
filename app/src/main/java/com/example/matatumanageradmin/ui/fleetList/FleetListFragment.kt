@@ -3,20 +3,20 @@ package com.example.matatumanageradmin.ui.fleetList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.data.Bus
 import com.example.matatumanageradmin.data.Driver
 import com.example.matatumanageradmin.databinding.FleetItemBinding
 import com.example.matatumanageradmin.databinding.FragmentFleetListBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_fleet_list.*
 
-
+@AndroidEntryPoint
 class FleetListFragment : Fragment() {
 
 
@@ -31,6 +31,7 @@ class FleetListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         fleetListBinding = FragmentFleetListBinding.inflate(inflater, container, false)
         val view = fleetListBinding.root
 
@@ -63,6 +64,7 @@ class FleetListFragment : Fragment() {
 
                         is FleetListViewModel.DriverListStatus.Success -> {
                             disableProgressBar()
+                            hideNoDataTxt()
                             fleetListAdapter.setData(it.drivers as ArrayList<Any>)
                             setRecyclerView()
                         }
@@ -84,6 +86,7 @@ class FleetListFragment : Fragment() {
                         is FleetListViewModel.BusListStatus.Success -> {
 
                             disableProgressBar()
+                            hideNoDataTxt()
                             fleetListAdapter.setData(it.buses as ArrayList<Any>)
                             setRecyclerView()
 
@@ -105,6 +108,10 @@ class FleetListFragment : Fragment() {
         fleetListBinding.noDataFleetListTxt.visibility = View.VISIBLE
     }
 
+    private fun hideNoDataTxt(){
+        fleetListBinding.noDataFleetListTxt.visibility = View.INVISIBLE
+    }
+
     fun disableProgressBar(){
         fleetListBinding.fleetListProgressBar.visibility = View.INVISIBLE
     }
@@ -119,8 +126,8 @@ class FleetListFragment : Fragment() {
     }
 
     fun navigationSelection(){
-        bottomNavigationView.setOnClickListener {
-            when(it.id){
+        fleetListBinding.bottomNavigationView.setOnItemReselectedListener {
+            when(it.itemId){
                 R.id.bottom_nav_bus -> {
                     fleetListViewModel.setListTypeToBus()
                     fleetListViewModel.getAllData(adminId)
@@ -135,6 +142,12 @@ class FleetListFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navigationSelection()
+
+    }
+
     private fun moveToDetail(item: Any) {
         if(item is Bus){
 
@@ -146,7 +159,7 @@ class FleetListFragment : Fragment() {
     private fun listenToTextChangeSearchEt(){
         fleetListBinding.searchFleetListEt.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -159,10 +172,34 @@ class FleetListFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                TODO("Not yet implemented")
+
             }
 
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+       // super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.fleet_list_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            if (item.itemId == R.id.new_bus_menu){
+                goToNewBus()
+            }
+            else if (item.itemId == R.id.new_driver_menu){
+                goToNewDriver()
+            }
+
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun goToNewBus(){
+        this.findNavController().navigate(R.id.action_busListFragment_to_busDetailFragment)
+    }
+
+    fun goToNewDriver(){
+        this.findNavController().navigate(R.id.action_busListFragment_to_driverDetailFragment)
+    }
 }

@@ -11,11 +11,12 @@
         <entry key="app/src/main/res/layout/fragment_bus_list.xml" value="0.20614035087719298" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_driver_detail.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_fleet_list.xml" value="0.17299898682877407" />
+        <entry key="app/src/main/res/layout/fragment_fleet_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mat_manager_registration.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_trip.xml" value="0.1" />
         <entry key="app/src/main/res/layout/my_progress.xml" value="0.17299898682877407" />
+        <entry key="app/src/main/res/menu/fleet_list_menu.xml" value="0.1" />
         <entry key="app/src/main/res/menu/list_view_bottom_nav.xml" value="0.21510416666666668" />
       </map>
     </option>

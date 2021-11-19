@@ -15,7 +15,7 @@ interface MatManagerApi {
     suspend fun createMatAdmin(@Body admin: MatAdmin): Response<JsonObject>
 
     @POST(CREATE_DRIVERS)
-    suspend fun createDriver(@Body driver: Driver): Response<String>
+    suspend fun createDriver(@Body driver: Driver): Response<JsonObject>
 
     @POST(CREATE_BUSES)
     suspend fun createBus(@Body bus: Bus): Response<JsonObject>
@@ -44,7 +44,7 @@ interface MatManagerApi {
     suspend fun getDrivers(
         @Query("type") type: String,
         @Query("id") adminId: String,
-        @Query("id") stringQuery: String
+        @Query("string_query") stringQuery: String
 
     ): Response<List<Driver>>
 
@@ -52,7 +52,7 @@ interface MatManagerApi {
     suspend fun getBus(
         @Query("type") type: String,
         @Query("id") adminId: String,
-        @Query("id") stringQuery: String
+        @Query("string_query") stringQuery: String
 
     ): Response<List<Bus>>
 

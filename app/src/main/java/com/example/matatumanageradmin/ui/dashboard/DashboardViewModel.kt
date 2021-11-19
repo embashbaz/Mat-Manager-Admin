@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.matatumanageradmin.data.MainRepository
 import com.example.matatumanageradmin.utils.DispatcherProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class DashboardViewModel  @Inject
 constructor(private var repository: MainRepository,
             private val dispatcher: DispatcherProvider

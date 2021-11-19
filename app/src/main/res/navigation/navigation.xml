@@ -25,9 +25,6 @@
             android:id="@+id/action_dashboardFragment_to_matManagerRegistrationFragment"
             app:destination="@id/matManagerRegistrationFragment" />
         <action
-            android:id="@+id/action_dashboardFragment_to_driverListFragment"
-            app:destination="@id/driverListFragment" />
-        <action
             android:id="@+id/action_dashboardFragment_to_busListFragment"
             app:destination="@id/busListFragment" />
         <action
@@ -43,15 +40,6 @@
         android:label="fragment_mat_manager_registration"
         tools:layout="@layout/fragment_mat_manager_registration" />
     <fragment
-        android:id="@+id/driverListFragment"
-        android:name="com.example.matatumanageradmin.ui.driverList.DriverListFragment"
-        android:label="fragment_driver_list"
-        tools:layout="@layout/fragment_driver_list" >
-        <action
-            android:id="@+id/action_driverListFragment_to_driverDetailFragment"
-            app:destination="@id/driverDetailFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/busListFragment"
         android:name="com.example.matatumanageradmin.ui.fleetList.FleetListFragment"
         android:label="fragment_bus_list"
@@ -59,6 +47,9 @@
         <action
             android:id="@+id/action_busListFragment_to_busDetailFragment"
             app:destination="@id/busDetailFragment" />
+        <action
+            android:id="@+id/action_busListFragment_to_driverDetailFragment"
+            app:destination="@id/driverDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/driverDetailFragment"

@@ -75,7 +75,7 @@ class FleetListAdapter(onClick: (Any) -> Unit) :
            fun from(parent: ViewGroup, onClick: (Any ) -> Unit) : ViewHolder{
                val layoutInflater = LayoutInflater.from(parent.context)
 
-                return  ViewHolder(FleetItemBinding.inflate(layoutInflater), onClick)
+                return  ViewHolder(FleetItemBinding.inflate(layoutInflater, parent, false), onClick)
            }
        }
     }

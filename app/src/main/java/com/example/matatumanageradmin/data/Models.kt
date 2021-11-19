@@ -34,22 +34,22 @@ data class Driver(
     var comment: String = "",
     val dateCreated: String = ""
 
-): Serializable
+)
 
 data class Bus(
-    var plate: String = "",
-    var managerId: String = "",
-    var identifier: String = "",
-    var carModel : String = "",
-    var docLink: String = "",
-    var pickupPoint: String = "",
-    var picture: String = "",
-    var pathPoints: String = "",
-    var locationLat: Double = 0.0,
-    var locationLng: Double = 0.0,
-    var status: String = "",
-    var comment: String = "",
-    var dateCreated: String = ""
+    @SerializedName("plate") var plate: String = "",
+    @SerializedName("managerId") var managerId: String = "",
+    @SerializedName("identifier") var identifier: String = "",
+    @SerializedName("carModel")  var carModel : String = "",
+    @SerializedName("docLink") var docLink: String = "",
+    @SerializedName("pickupPoint") var pickupPoint: String = "",
+    @SerializedName("picture") var picture: String = "",
+    @SerializedName("pathPoints")var pathPoints: String = "",
+    @SerializedName("locationLat") var locationLat: Double = 0.0,
+    @SerializedName("locationLng")var locationLng: Double = 0.0,
+    @SerializedName("status") var status: String = "",
+    @SerializedName("comment") var comment: String = "",
+    @SerializedName("dateCreated") var dateCreated: String = "",
 
 )
 

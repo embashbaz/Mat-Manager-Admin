@@ -18,8 +18,9 @@ import com.example.matatumanageradmin.databinding.FragmentDriverDetailBinding
 import com.example.matatumanageradmin.databinding.FragmentMatManagerRegistrationBinding
 import com.example.matatumanageradmin.ui.dialog.NoticeDialogFragment
 import com.example.matatumanageradmin.utils.stringFromTl
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
 
     var imageBitmap: Bitmap? = null

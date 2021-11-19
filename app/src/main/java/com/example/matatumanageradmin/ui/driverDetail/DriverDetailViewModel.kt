@@ -61,8 +61,8 @@ constructor(private var repository: MainRepository,
                 }
 
                 val driver = Driver(
-                    "", "", nationalId, licenseNumber, "",
-                    "", name, email, floatPhone!!, address, "active", "", ""
+                    "", "8IPFL9JZ5gQFmOPZXHMoY8mu04g2", nationalId, licenseNumber, "this",
+                    "this", name, email, floatPhone!!, address, "active", "this", "this"
                 )
 
                 viewModelScope.launch(dispatcher.io) {
