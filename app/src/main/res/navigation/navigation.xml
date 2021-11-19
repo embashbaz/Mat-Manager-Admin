@@ -62,6 +62,9 @@
         <action
             android:id="@+id/action_driverDetailFragment_to_tripFragment"
             app:destination="@id/tripFragment" />
+        <action
+            android:id="@+id/action_driverDetailFragment_to_issueFragment"
+            app:destination="@id/issueFragment" />
     </fragment>
     <fragment
         android:id="@+id/busDetailFragment"
@@ -74,6 +77,9 @@
         <action
             android:id="@+id/action_busDetailFragment_to_tripFragment"
             app:destination="@id/tripFragment" />
+        <action
+            android:id="@+id/action_busDetailFragment_to_issueFragment"
+            app:destination="@id/issueFragment" />
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
