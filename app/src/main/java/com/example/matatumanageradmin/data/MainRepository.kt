@@ -28,5 +28,7 @@ interface MainRepository {
 
     suspend fun getDriverWithQuery(stringQuery: String, adminId: String): OperationStatus<List<Driver>>
     suspend fun getBusesWithQuery(stringQuery: String, adminId: String): OperationStatus<List<Bus>>
+    suspend fun getIssues(type: String, id: String, startDate: String, endDate: String): OperationStatus<List<Issue>>
+
 
 }

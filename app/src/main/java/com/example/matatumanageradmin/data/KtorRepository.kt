@@ -302,4 +302,24 @@ class KtorRepository @Inject constructor(
             OperationStatus.Error(e.message ?: "An error occurred")
         }
     }
+
+    override suspend fun getIssues(
+        type: String,
+        id: String,
+        startDate: String,
+        endDate: String
+    ): OperationStatus<List<Issue>> {
+        return  try{
+            val response = api.getIssues(Constant.DRIVER_ISSUE, id, startDate, endDate)
+            val result = response.body()
+            if(response.isSuccessful && !result!!.isEmpty()!!){
+                OperationStatus.Success(result)
+            }else{
+                OperationStatus.Error(response.message())
+            }
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
+    }
 }

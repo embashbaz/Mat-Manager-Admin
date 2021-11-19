@@ -81,5 +81,13 @@ interface MatManagerApi {
         @Query("endDate") endDate: String
     ): Response<List<Expense>>
 
+    @GET(ISSUES)
+    suspend fun getIssues(
+        @Query("type") type: String,
+        @Query("id") id: String,
+        @Query("startDate") startDate: String,
+        @Query("endDate") endDate: String
+    ): Response<List<Issue>>
+
 
 }

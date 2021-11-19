@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.matatumanageradmin.MatManagerAdminApp
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.databinding.FragmentDashboardBinding
+import com.example.matatumanageradmin.utils.Constant
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,6 +18,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashboardBinding: FragmentDashboardBinding
     private val dashboardViewModel: DashboardViewModel by viewModels()
+    private val adminId : String by lazy {  ( activity?.application as MatManagerAdminApp).matAdmin!!.matAdminId }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +44,10 @@ class DashboardFragment : Fragment() {
 
         dashboardViewModel.issuesCardClicked.observe(viewLifecycleOwner, {
             if (it){
-                this.findNavController().navigate(R.id.action_dashboardFragment_to_issueFragment)
+                val bundle = Bundle()
+                bundle.putString("issue_type", Constant.ALL_ISSUE)
+                bundle.putString("record_id", adminId)
+                this.findNavController().navigate(R.id.action_dashboardFragment_to_issueFragment, bundle)
                 dashboardViewModel.issueCardClicked(false)
             }
         })
