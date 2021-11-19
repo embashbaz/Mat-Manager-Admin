@@ -17,5 +17,11 @@ object Constant {
     const val DRIVERS_QUERY = "driver_query"
     const val BUSES_QUERY = "bus_query"
 
+    const val BUS_EXPENSE = "bus_expense"
+    const val BUS_ISSUE = "bus_issue"
+
+    const val DRIVER_EXPENSE = "driver_expense"
+    const val DRIVER_ISSUE = "driver_issue"
+
 
 }

@@ -11,11 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.data.Bus
 import com.example.matatumanageradmin.databinding.FragmentBusDetailBinding
+import com.example.matatumanageradmin.utils.Constant
 import com.example.matatumanageradmin.utils.showLongToast
 import com.example.matatumanageradmin.utils.stringFromTl
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +42,8 @@ class BusDetailFragment : Fragment() {
             busDetailViewModel.changeToUpdate()
             arguments?.getParcelable<Bus>("bus")?.let { busDetailViewModel.setBusObject(it) }
 
+        }else{
+            busDetailBinding.nextActionBus.layoutParams.height = 0
         }
 
         busDetailBinding.busImageDetail.setOnClickListener {
@@ -50,6 +54,7 @@ class BusDetailFragment : Fragment() {
             if(it){
                 changeViewBehaviour()
                 populateView()
+                listenToNextActionClick()
 
             }else{
 
@@ -70,6 +75,22 @@ class BusDetailFragment : Fragment() {
         })
 
         return view
+    }
+
+    private fun listenToNextActionClick() {
+        busDetailBinding.goToExpensesViewCard.setOnClickListener {
+            val busPlate = busDetailViewModel.busObject.value!!.plate
+            val bundle = Bundle()
+            bundle.putString("record_id", busPlate)
+            bundle.putString("expense_type", Constant.BUS_EXPENSE)
+            this.findNavController().navigate(R.id.action_driverDetailFragment_to_expenseListFragment, bundle)
+        }
+
+        busDetailBinding.goToIssueCard.setOnClickListener {  }
+
+        busDetailBinding.goToListTrips.setOnClickListener {  }
+
+        busDetailBinding.goToStatCard.setOnClickListener {  }
     }
 
     private fun saveBusOnButtonClicked() {

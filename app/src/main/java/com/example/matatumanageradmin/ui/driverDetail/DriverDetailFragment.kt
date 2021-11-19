@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.matatumanageradmin.R
@@ -19,6 +20,7 @@ import com.example.matatumanageradmin.data.Driver
 import com.example.matatumanageradmin.databinding.FragmentDriverDetailBinding
 import com.example.matatumanageradmin.databinding.FragmentMatManagerRegistrationBinding
 import com.example.matatumanageradmin.ui.dialog.NoticeDialogFragment
+import com.example.matatumanageradmin.utils.Constant
 import com.example.matatumanageradmin.utils.stringFromTl
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,6 +45,8 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
             driverDetailViewModel.changeToProfileType()
             arguments?.getParcelable<Driver>("driver")?.let { driverDetailViewModel.setDriverObject( it )  }
 
+        }else{
+            driverDetailBinding.driverNextAction.layoutParams.height = 0
         }
 
         driverDetailBinding.driverImageDetail.setOnClickListener { dispatchTakePictureIntent() }
@@ -51,6 +55,7 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
             if(it){
                 populateView()
                 changeViewBehaviour()
+                listenToNextActionClick()
             }
         })
 
@@ -66,6 +71,28 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
         })
 
         return view
+    }
+
+    private fun listenToNextActionClick() {
+        driverDetailBinding.goToExpensesViewCard.setOnClickListener {
+            val driverId = driverDetailViewModel.profileData.value!!.driverId
+            val bundle = Bundle()
+            bundle.putString("record_id", driverId)
+            bundle.putString("expense_type", Constant.DRIVER_EXPENSE)
+            this.findNavController().navigate(R.id.action_driverDetailFragment_to_expenseListFragment, bundle)
+        }
+
+        driverDetailBinding.goToIssueCard.setOnClickListener {
+
+        }
+
+        driverDetailBinding.goToListTrips.setOnClickListener {
+
+        }
+
+        driverDetailBinding.goToStatCard.setOnClickListener {
+
+        }
     }
 
 
