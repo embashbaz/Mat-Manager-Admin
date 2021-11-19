@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.matatumanageradmin.MatManagerAdminApp
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.data.Bus
 import com.example.matatumanageradmin.data.Driver
@@ -23,8 +24,8 @@ class FleetListFragment : Fragment() {
 
     private lateinit var fleetListBinding: FragmentFleetListBinding
     private val fleetListViewModel: FleetListViewModel by viewModels()
-    private var adminId = ""
     private lateinit var  fleetListAdapter: FleetListAdapter
+    private val adminId : String by lazy {  ( activity?.application as MatManagerAdminApp).matAdmin!!.matAdminId }
     
 
     override fun onCreateView(

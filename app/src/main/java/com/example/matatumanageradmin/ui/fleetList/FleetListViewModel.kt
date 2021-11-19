@@ -111,7 +111,7 @@ constructor(private var repository: MainRepository,
     private fun getAllBuses(){
         viewModelScope.launch(dispatcher.io){
             _busList.postValue(BusListStatus.Loading)
-            when(val response = repository.getBuses("emerybashige@gmail.com")){
+            when(val response = repository.getBuses(adminId)){
                 is OperationStatus.Error ->  _busList.postValue(BusListStatus.Failed(response.message!!))
                 is OperationStatus.Success -> {
                     if (response.data!!.isEmpty()){
@@ -129,7 +129,7 @@ constructor(private var repository: MainRepository,
     private fun getAllDrivers(){
         viewModelScope.launch(dispatcher.io){
             _driverList.postValue(DriverListStatus.Loading)
-            when(val response = repository.getDrivers("emerybashige@gmail.com")){
+            when(val response = repository.getDrivers(adminId)){
                 is OperationStatus.Error ->  _driverList.postValue(DriverListStatus.Failed(response.message!!))
                 is OperationStatus.Success -> {
                     if (response.data!!.isEmpty()){

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.matatumanageradmin.MatManagerAdminApp
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.databinding.FragmentLoginBinding
 import com.example.matatumanageradmin.ui.dialog.NoticeDialogFragment
@@ -67,6 +68,7 @@ class LoginFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
                     openNoticeDialog("ok", it.errorText)
                 }
                 is LoginViewModel.LoginStatus.Success -> {
+                    (activity?.application as MatManagerAdminApp).matAdmin = it.adminObject
                     this.findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
                 }
             }
