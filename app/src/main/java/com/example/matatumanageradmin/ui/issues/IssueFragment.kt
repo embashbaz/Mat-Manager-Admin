@@ -34,11 +34,13 @@ class IssueFragment : Fragment() {
 
         defaultRecyclerAdapter = DefaultRecyclerAdapter { issue -> onIssueClicked(issue) }
 
+        getIssues()
+
         return view
     }
 
     private fun onIssueClicked(issue: Any) {
-        TODO("Not yet implemented")
+
     }
 
     private fun getIssues(){

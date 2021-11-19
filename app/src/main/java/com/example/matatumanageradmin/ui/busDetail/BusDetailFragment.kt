@@ -86,7 +86,14 @@ class BusDetailFragment : Fragment() {
             this.findNavController().navigate(R.id.action_driverDetailFragment_to_expenseListFragment, bundle)
         }
 
-        busDetailBinding.goToIssueCard.setOnClickListener {  }
+        busDetailBinding.goToIssueCard.setOnClickListener {
+            val busPlate = busDetailViewModel.busObject.value!!.plate
+            val bundle = Bundle()
+            bundle.putString("record_id", busPlate)
+            bundle.putString("issue_type", Constant.BUS_ISSUE)
+            this.findNavController().navigate(R.id.action_driverDetailFragment_to_issueFragment, bundle)
+
+        }
 
         busDetailBinding.goToListTrips.setOnClickListener {  }
 
