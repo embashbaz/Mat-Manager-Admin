@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_driverDetailFragment_to_issueFragment"
             app:destination="@id/issueFragment" />
+        <action
+            android:id="@+id/action_driverDetailFragment_to_expenseListFragment"
+            app:destination="@id/expenseListFragment" />
     </fragment>
     <fragment
         android:id="@+id/busDetailFragment"
@@ -80,6 +83,9 @@
         <action
             android:id="@+id/action_busDetailFragment_to_issueFragment"
             app:destination="@id/issueFragment" />
+        <action
+            android:id="@+id/action_busDetailFragment_to_expenseListFragment"
+            app:destination="@id/expenseListFragment" />
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
@@ -127,4 +133,9 @@
             android:id="@+id/action_trackingFragment_to_busDetailFragment"
             app:destination="@id/busDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/expenseListFragment"
+        android:name="com.example.matatumanageradmin.ui.expense.ExpenseListFragment"
+        android:label="fragment_expense_list"
+        tools:layout="@layout/fragment_expense_list" />
 </navigation>
