@@ -23,6 +23,12 @@ object Constant {
     const val DRIVER_EXPENSE = "driver_expense"
     const val DRIVER_ISSUE = "driver_issue"
 
+    const val DRIVERS_TRIP = "driver_trip"
+    const val BUSES_TRIP = "bus_trip"
+
+    const val BUS_STAT = "bus_stat"
+    const val DRIVER_STAT = "driver_stat"
+
     const val ALL_ISSUE = "all_issue"
 
 

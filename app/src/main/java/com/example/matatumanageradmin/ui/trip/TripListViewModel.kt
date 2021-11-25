@@ -8,9 +8,11 @@ import com.example.matatumanageradmin.data.MainRepository
 import com.example.matatumanageradmin.data.Trip
 import com.example.matatumanageradmin.utils.DispatcherProvider
 import com.example.matatumanageradmin.utils.OperationStatus
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class TripListViewModel @Inject constructor(val repository: MainRepository,
                                             private val dispatcher: DispatcherProvider
 ) : ViewModel() {
@@ -28,19 +30,21 @@ class TripListViewModel @Inject constructor(val repository: MainRepository,
         _tripObject.value = trip
     }
 
-    fun getTrips(id: String){
+    fun getTrips(id: String, type: String){
 
         viewModelScope.launch(dispatcher.io){
-            _tripList.value = TripListStatus.Loading
-            when(val response = repository.getTrips("",id,"","")){
-                is OperationStatus.Error -> _tripList.value = TripListStatus.Failed(response.message!!)
-                is OperationStatus.Success -> {
-                    if (response.data!!.isEmpty()){
-                        _tripList.value =  TripListStatus.Failed("No data was returned")
-                    }else{
-                        _tripList.value =  TripListStatus.Success("success", response.data)
-                    }
+            viewModelScope.launch(dispatcher.io){
+                _tripList.postValue(TripListStatus.Loading)
+                when(val response = repository.getTrips(type,id,"","")){
+                    is OperationStatus.Error -> _tripList.postValue(TripListStatus.Failed(response.message!!))
+                    is OperationStatus.Success -> {
+                        if (response.data!!.isEmpty()){
+                            _tripList.postValue(TripListStatus.Failed("No data was returned"))
+                        }else{
+                            _tripList.postValue(TripListStatus.Success("success", response.data))
+                        }
 
+                    }
                 }
             }
         }

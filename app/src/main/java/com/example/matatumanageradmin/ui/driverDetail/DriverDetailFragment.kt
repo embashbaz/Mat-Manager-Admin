@@ -91,7 +91,11 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
         }
 
         driverDetailBinding.goToListTrips.setOnClickListener {
-
+            val driverId = driverDetailViewModel.profileData.value!!.driverId
+            val bundle = Bundle()
+            bundle.putString("record_id", driverId)
+            bundle.putString("trip_type", Constant.DRIVERS_TRIP)
+            this.findNavController().navigate(R.id.action_driverDetailFragment_to_tripFragment, bundle)
         }
 
         driverDetailBinding.goToStatCard.setOnClickListener {
