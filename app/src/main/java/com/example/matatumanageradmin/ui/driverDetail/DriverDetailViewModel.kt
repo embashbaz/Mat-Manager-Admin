@@ -42,7 +42,8 @@ constructor(private var repository: MainRepository,
         _profileData.value = driver
     }
 
-    fun getUiData(name: String,
+    fun getUiData(adminId: String,
+                    name: String,
                     email: String,
                     phoneNumber: String,
                     password: String,
@@ -67,7 +68,7 @@ constructor(private var repository: MainRepository,
                 }
 
                 val driver = Driver(
-                    "", "8IPFL9JZ5gQFmOPZXHMoY8mu04g2", nationalId, licenseNumber, "this",
+                    "", adminId, nationalId, licenseNumber, "this",
                     "this", name, email, floatPhone!!, address, "active", "this", "this"
                 )
 

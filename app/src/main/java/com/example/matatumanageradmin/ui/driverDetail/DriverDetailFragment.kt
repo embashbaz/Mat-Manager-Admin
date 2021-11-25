@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.matatumanageradmin.MatManagerAdminApp
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.data.Bus
 import com.example.matatumanageradmin.data.Driver
@@ -32,6 +33,8 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
 
     private lateinit var driverDetailBinding : FragmentDriverDetailBinding
     private val driverDetailViewModel : DriverDetailViewModel by viewModels()
+
+    private val adminId : String by lazy {  ( activity?.application as MatManagerAdminApp).matAdmin!!.matAdminId }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -105,7 +108,8 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
 
 
     private fun saveDriverOnButtonClicked() {
-        driverDetailViewModel.getUiData(stringFromTl(driverDetailBinding.nameRegister),
+        driverDetailViewModel.getUiData(adminId,
+                                        stringFromTl(driverDetailBinding.nameRegister),
                                         stringFromTl(driverDetailBinding.emailRegisterDriverDetailTl),
                                         stringFromTl(driverDetailBinding.phoneDriverRegisterTl),
                                         stringFromTl(driverDetailBinding.passwordRegisterDriverTl),

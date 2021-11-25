@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.example.matatumanageradmin.MatManagerAdminApp
 import com.example.matatumanageradmin.R
+import com.example.matatumanageradmin.data.MatAdmin
 import com.example.matatumanageradmin.databinding.FragmentMatManagerRegistrationBinding
 import com.example.matatumanageradmin.ui.dialog.NoticeDialogFragment
 import com.example.matatumanageradmin.utils.stringFromTl
@@ -18,6 +20,7 @@ class MatManagerRegistrationFragment : Fragment(), NoticeDialogFragment.NoticeDi
 
     private lateinit var matManagerRegistrationFragmentBinding: FragmentMatManagerRegistrationBinding
     private val adminRegisterViewModel: MatManagerAdminRegistrationViewModel by viewModels()
+    var matAdmin: MatAdmin? = null
 
 
     override fun onCreateView(
@@ -27,8 +30,10 @@ class MatManagerRegistrationFragment : Fragment(), NoticeDialogFragment.NoticeDi
         matManagerRegistrationFragmentBinding = FragmentMatManagerRegistrationBinding.inflate(inflater, container, false)
         val view = matManagerRegistrationFragmentBinding.root
 
-        if(arguments?.getString("registration")== "profile")
+        if(arguments?.getString("registration")== "profile") {
             adminRegisterViewModel.changeToProfileType()
+            matAdmin = ( activity?.application as MatManagerAdminApp).matAdmin!!
+        }
 
 
         adminRegisterViewModel.registerOrProfile.observe(viewLifecycleOwner, {
@@ -71,7 +76,12 @@ class MatManagerRegistrationFragment : Fragment(), NoticeDialogFragment.NoticeDi
     }
 
     private fun populateViewWithAdminData() {
-
+        matManagerRegistrationFragmentBinding.nameRegister.editText?.setText(matAdmin!!.name)
+        matManagerRegistrationFragmentBinding.emailRegister.editText?.setText(matAdmin!!.email)
+        matManagerRegistrationFragmentBinding.phoneRegister.editText?.setText(matAdmin!!.phoneNumber.toString())
+        matManagerRegistrationFragmentBinding.cityAdress.editText?.setText(matAdmin!!.address)
+        matManagerRegistrationFragmentBinding.addressTl.editText?.setText(matAdmin!!.address)
+        matManagerRegistrationFragmentBinding.licenseNumberTl.editText?.setText(matAdmin!!.licenseNumber)
     }
 
     private fun  getDataFromView(){

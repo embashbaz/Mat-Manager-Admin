@@ -64,7 +64,7 @@ class DashboardFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putString("registration", "profile")
 
-                this.findNavController().navigate(R.id.action_dashboardFragment_to_matManagerRegistrationFragment)
+                this.findNavController().navigate(R.id.action_dashboardFragment_to_matManagerRegistrationFragment, bundle)
                 dashboardViewModel.profileCardClicked(false)
             }
         })

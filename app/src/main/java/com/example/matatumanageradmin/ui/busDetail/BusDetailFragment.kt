@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.matatumanageradmin.MatManagerAdminApp
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.data.Bus
 import com.example.matatumanageradmin.databinding.FragmentBusDetailBinding
@@ -30,6 +31,8 @@ class BusDetailFragment : Fragment() {
 
     private lateinit var busDetailBinding : FragmentBusDetailBinding
     private val busDetailViewModel: BusDetailViewModel by viewModels()
+
+    private val adminId : String by lazy {  ( activity?.application as MatManagerAdminApp).matAdmin!!.matAdminId }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -109,6 +112,7 @@ class BusDetailFragment : Fragment() {
 
     private fun saveBusOnButtonClicked() {
         busDetailViewModel.getDataFromView(
+            adminId,
              stringFromTl(busDetailBinding.plateBusDetailTl),
              "",
             stringFromTl(busDetailBinding.busModelDetailTl),

@@ -41,6 +41,7 @@ class BusDetailViewModel  @Inject constructor(val repository: MainRepository,
     }
 
     fun getDataFromView(
+        adminId: String,
         plate: String,
         identifier: String,
         model: String,
@@ -53,13 +54,12 @@ class BusDetailViewModel  @Inject constructor(val repository: MainRepository,
             _busObject.value!!.identifier = identifier
             _busObject.value!!.carModel =model
             _busObject.value!!.comment = comment
-            _busObject.value!!.managerId ="8IPFL9JZ5gQFmOPZXHMoY8mu04g2"
-            val bus = Bus(plate, "8IPFL9JZ5gQFmOPZXHMoY8mu04g2", identifier, model,"","", "",
-                        "", 0.0, 0.0, "new", comment,"")
+            _busObject.value!!.managerId =adminId
+
 
             viewModelScope.launch(dispatcher.io) {
                 _createOrUpdateBusResult.postValue(CreateOrUpdateBusStatus.Loading)
-                when (val result = repository.updateBus(bus)){
+                when (val result = repository.updateBus(_busObject.value!!)){
                     is OperationStatus.Error -> _createOrUpdateBusResult.postValue(
                         CreateOrUpdateBusStatus.Failed(result.message!!))
                     is OperationStatus.Success -> _createOrUpdateBusResult.postValue(
@@ -70,7 +70,7 @@ class BusDetailViewModel  @Inject constructor(val repository: MainRepository,
             }
 
         }else{
-            val bus = Bus(plate, "8IPFL9JZ5gQFmOPZXHMoY8mu04g2", identifier, model, "", "", "","",0.0,
+            val bus = Bus(plate, adminId, identifier, model, "", "", "","",0.0,
                 0.0, "active", comment, "")
 
             viewModelScope.launch(dispatcher.io) {
