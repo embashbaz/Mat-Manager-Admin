@@ -102,7 +102,11 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
         }
 
         driverDetailBinding.goToStatCard.setOnClickListener {
-
+            val driverId = driverDetailViewModel.profileData.value!!.driverId
+            val bundle = Bundle()
+            bundle.putString("record_id", driverId)
+            bundle.putString("stat_type", Constant.DRIVER_STAT)
+            this.findNavController().navigate(R.id.action_driverDetailFragment_to_statisticsFragment, bundle)
         }
     }
 
@@ -128,7 +132,7 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
                 driverDetailBinding.confirmPasswordDriverTl.editText!!.setText("")
                 driverDetailBinding.addressDriverTl .editText!!.setText(it.address)
                 driverDetailBinding.permitDriverTl.editText!!.setText(it.permitNumber)
-                driverDetailBinding.idNumberDriverTl .editText!!.setText(it.driverId)
+                driverDetailBinding.idNumberDriverTl .editText!!.setText(it.cardId)
 
             })
     }

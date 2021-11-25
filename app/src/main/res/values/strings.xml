@@ -2,4 +2,13 @@
     <string name="app_name">Matatu Manager Admin</string>
     <string name="no_Data">No Data Fetched</string>
     <string name="hello_blank_fragment"> This has not been implemente yet</string>
+
+    <string-array name="stat_type">
+        <item>Number of trip</item>
+        <item>distance</item>
+        <item>Fare collected</item>
+        <item>Expenses</item>
+
+    </string-array>
+
 </resources>

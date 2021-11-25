@@ -107,7 +107,13 @@ class BusDetailFragment : Fragment() {
 
         }
 
-        busDetailBinding.goToStatCard.setOnClickListener {  }
+        busDetailBinding.goToStatCard.setOnClickListener {
+            val busPlate = busDetailViewModel.busObject.value!!.plate
+            val bundle = Bundle()
+            bundle.putString("record_id", busPlate)
+            bundle.putString("stat_type", Constant.BUS_STAT)
+            this.findNavController().navigate(R.id.action_busDetailFragment_to_statisticsFragment, bundle)
+        }
     }
 
     private fun saveBusOnButtonClicked() {
