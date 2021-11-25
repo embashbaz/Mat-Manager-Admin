@@ -15,5 +15,6 @@
 local.properties
 app/src/main/java/com/example/matatumanageradmin/utils/Secrets.kt
 app/google-services.json
+app/src/main/res/values/google_maps_api.xml
 
 gradle.properties

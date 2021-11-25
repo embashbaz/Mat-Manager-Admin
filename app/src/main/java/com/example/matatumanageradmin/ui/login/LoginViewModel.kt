@@ -39,7 +39,7 @@ class LoginViewModel @Inject
                 _loginStatus.postValue(LoginStatus.Loading)
                 when (val response = repository.loginAdmin(email, password)){
                     is OperationStatus.Error -> _loginStatus.postValue(LoginStatus.Failed(response.message!!))
-                    is OperationStatus.Success -> _loginStatus.postValue(LoginStatus.Success("Success", null))
+                    is OperationStatus.Success -> _loginStatus.postValue(LoginStatus.Success("Success", response.data))
                 }
 
             }else{
