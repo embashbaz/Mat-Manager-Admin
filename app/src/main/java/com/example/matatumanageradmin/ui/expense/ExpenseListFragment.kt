@@ -11,8 +11,9 @@ import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.databinding.FragmentExpenseListBinding
 import com.example.matatumanageradmin.ui.other.DefaultRecyclerAdapter
 import com.example.matatumanageradmin.utils.Constant
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ExpenseListFragment : Fragment() {
 
     private lateinit var expenseListBinding: FragmentExpenseListBinding
@@ -40,7 +41,7 @@ class ExpenseListFragment : Fragment() {
     }
 
     private fun onExpenseClicked(expense: Any) {
-        TODO("Not yet implemented")
+
     }
 
     private fun getExpenses() {

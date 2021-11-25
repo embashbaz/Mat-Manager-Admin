@@ -83,7 +83,7 @@ class BusDetailFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString("record_id", busPlate)
             bundle.putString("expense_type", Constant.BUS_EXPENSE)
-            this.findNavController().navigate(R.id.action_driverDetailFragment_to_expenseListFragment, bundle)
+            this.findNavController().navigate(R.id.action_busDetailFragment_to_expenseListFragment, bundle)
         }
 
         busDetailBinding.goToIssueCard.setOnClickListener {
@@ -91,7 +91,7 @@ class BusDetailFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString("record_id", busPlate)
             bundle.putString("issue_type", Constant.BUS_ISSUE)
-            this.findNavController().navigate(R.id.action_driverDetailFragment_to_issueFragment, bundle)
+            this.findNavController().navigate(R.id.action_busDetailFragment_to_issueFragment, bundle)
 
         }
 

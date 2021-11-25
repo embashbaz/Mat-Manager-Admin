@@ -1,5 +1,6 @@
 package com.example.matatumanageradmin.data
 
+import android.util.Log
 import com.example.matatumanageradmin.utils.Constant
 import com.example.matatumanageradmin.utils.OperationStatus
 import com.google.firebase.auth.FirebaseAuth
@@ -214,7 +215,7 @@ class KtorRepository @Inject constructor(
         endDate: String
     ): OperationStatus<List<Trip>> {
         return  try{
-            val response = api.getTrips("", id, startDate, endDate)
+            val response = api.getTrips(type, id, startDate, endDate)
             val result = response.body()
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result)
@@ -234,7 +235,7 @@ class KtorRepository @Inject constructor(
         endDate: String
     ): OperationStatus<List<Statistics>> {
         return  try{
-            val response = api.getStats("", id, startDate, endDate)
+            val response = api.getStats(type, id, startDate, endDate)
             val result = response.body()
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result)
@@ -254,8 +255,10 @@ class KtorRepository @Inject constructor(
         endDate: String
     ): OperationStatus<List<Expense>> {
         return  try{
-            val response = api.getExpenses("", id, startDate, endDate)
+            val response = api.getExpenses(type, id, startDate, endDate)
             val result = response.body()
+            val errorBody = response.errorBody()?.charStream()?.readText()?:""
+            Log.d("THISSSSSS", errorBody)
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result)
             }else{
@@ -310,8 +313,10 @@ class KtorRepository @Inject constructor(
         endDate: String
     ): OperationStatus<List<Issue>> {
         return  try{
-            val response = api.getIssues(Constant.DRIVER_ISSUE, id, startDate, endDate)
+            val response = api.getIssues(type, id, startDate, endDate)
             val result = response.body()
+            val errorBody = response.errorBody()?.charStream()?.readText()?:""
+            Log.d("THISSSSSS", errorBody)
             if(response.isSuccessful && !result!!.isEmpty()!!){
                 OperationStatus.Success(result)
             }else{

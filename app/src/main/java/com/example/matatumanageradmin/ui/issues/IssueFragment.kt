@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.databinding.FragmentIssueBinding
 import com.example.matatumanageradmin.ui.other.DefaultRecyclerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class IssueFragment : Fragment() {
 
 
