@@ -11,6 +11,7 @@ import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.data.BusLocation
 import com.example.matatumanageradmin.databinding.FragmentTrackingBinding
 import com.example.matatumanageradmin.utils.showLongToast
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -89,6 +90,15 @@ class TrackingFragment : Fragment() {
                 locMarker!!.position = loc
                 locMarker!!.rotation = location.bearing
             }
+
+            map?.animateCamera(
+
+                //ToDo: this will create a bug later on
+                CameraUpdateFactory.newLatLngZoom(
+                    loc,
+                    15f
+                )
+            )
 
 
         }

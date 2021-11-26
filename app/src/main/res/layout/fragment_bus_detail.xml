@@ -89,7 +89,9 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_baseline_bar_chart_24" />
+                                android:scaleType="centerInside"
+                                android:src="@mipmap/stat_image_foreground"
+                                app:srcCompat="@mipmap/stat_image_foreground" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -125,7 +127,8 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_baseline_attach_money_24" />
+                                android:src="@mipmap/expense_image_foreground"
+                                app:srcCompat="@mipmap/expense_image_foreground" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -162,7 +165,8 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_baseline_report_problem_24" />
+                                android:src="@mipmap/issue_image_foreground"
+                                app:srcCompat="@mipmap/issue_image_foreground" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -199,7 +203,9 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_baseline_report_problem_24" />
+                                android:scaleType="center"
+                                android:src="@mipmap/trip_image_foreground"
+                                app:srcCompat="@mipmap/trip_image_foreground" />
 
                             <TextView
                                 android:layout_width="wrap_content"

@@ -65,11 +65,18 @@ class LoginFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
         loginViewModel.loginStatus.observe(viewLifecycleOwner, {
             when(it){
                 is LoginViewModel.LoginStatus.Failed -> {
+                    hideProgressBar()
                     openNoticeDialog("ok", it.errorText)
                 }
                 is LoginViewModel.LoginStatus.Success -> {
                     (activity?.application as MatManagerAdminApp).matAdmin = it.adminObject
+                    hideProgressBar()
                     this.findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+
+                }
+
+                is LoginViewModel.LoginStatus.Loading -> {
+                    showProgressBar()
                 }
             }
         })
@@ -80,6 +87,14 @@ class LoginFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
         dialog.setListener(this)
         dialog.show(parentFragmentManager, "Confirm you want to save picture")
 
+    }
+
+    private fun hideProgressBar(){
+        loginBinding.progressBarLogin.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar(){
+        loginBinding.progressBarLogin.visibility = View.VISIBLE
     }
 
 

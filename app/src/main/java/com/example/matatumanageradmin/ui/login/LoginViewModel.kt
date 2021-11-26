@@ -39,7 +39,15 @@ class LoginViewModel @Inject
                 _loginStatus.postValue(LoginStatus.Loading)
                 when (val response = repository.loginAdmin(email, password)){
                     is OperationStatus.Error -> _loginStatus.postValue(LoginStatus.Failed(response.message!!))
-                    is OperationStatus.Success -> _loginStatus.postValue(LoginStatus.Success("Success", response.data))
+                    is OperationStatus.Success -> {
+
+                        if(response.data!!.status == "active") {
+                            _loginStatus.postValue(LoginStatus.Success("Success", response.data))
+                        }
+                        else if (response.data!!.status == "Pending"){
+                            _loginStatus.value = LoginStatus.Failed("Your account has not been verified yet, please contact us at emerybashige@gmail.com to follow up on the verification process")
+                        }
+                    }
                 }
 
             }else{

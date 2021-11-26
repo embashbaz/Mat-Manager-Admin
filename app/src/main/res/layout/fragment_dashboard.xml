@@ -44,7 +44,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_baseline_location_searching_24" />
+                    android:scaleType="center"
+                    app:srcCompat="@mipmap/location_image_foreground" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -78,9 +79,10 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_baseline_location_searching_24" />
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:scaleType="center"
+                    app:srcCompat="@mipmap/fleet_image_foreground" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -116,8 +118,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_bar_chart_24"
-                    app:srcCompat="@drawable/ic_baseline_report_problem_24" />
+                    android:scaleType="center"
+                    android:src="@mipmap/issue_image_foreground"
+                    app:srcCompat="@mipmap/issue_image_foreground" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -153,8 +156,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_person_24"
-                    app:srcCompat="@drawable/ic_baseline_business_24" />
+                    android:src="@mipmap/business_image_foreground"
+                    app:srcCompat="@mipmap/business_image_foreground" />
 
                 <TextView
                     android:layout_width="wrap_content"
