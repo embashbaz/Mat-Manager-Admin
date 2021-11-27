@@ -6,6 +6,8 @@ import com.example.matatumanageradmin.utils.OperationStatus
 interface MainRepository {
 
     suspend fun loginAdmin(email: String, password: String): OperationStatus<MatAdmin>
+    suspend fun forgotAdminPassword(email: String): OperationStatus<String>
+    suspend fun logOut(): OperationStatus<String>
     suspend fun registerAdmin(matatuAdmin: MatAdmin, password: String): OperationStatus<String>
     suspend fun registerDriver(driver: Driver, password: String): OperationStatus<String>
     suspend fun addTrip (trip: Trip): OperationStatus<String>

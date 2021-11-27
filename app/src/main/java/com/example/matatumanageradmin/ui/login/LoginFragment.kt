@@ -85,7 +85,7 @@ class LoginFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
     fun openNoticeDialog(positiveButton: String,  message: String){
         val dialog = NoticeDialogFragment(positiveButton, message)
         dialog.setListener(this)
-        dialog.show(parentFragmentManager, "Confirm you want to save picture")
+        dialog.show(parentFragmentManager, "Error")
 
     }
 
