@@ -11,12 +11,14 @@ import com.example.matatumanageradmin.MatManagerAdminApp
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.databinding.FragmentLoginBinding
 import com.example.matatumanageradmin.ui.dialog.NoticeDialogFragment
+import com.example.matatumanageradmin.ui.resetPassword.ResetPasswordDialog
 import com.example.matatumanageradmin.utils.stringFromTl
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LoginFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
+class LoginFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener,
+    ResetPasswordDialog.ResetPasswordDialogListener {
 
     private lateinit var loginBinding: FragmentLoginBinding
     private val loginViewModel : LoginViewModel by viewModels()
@@ -33,8 +35,36 @@ class LoginFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
         observeLoginStatus()
         observeRegisterButton()
         onRegisterButtonClicked()
+        onResetPasswordClicked()
+        obsevePasswordReset()
 
         return view
+    }
+
+    private fun obsevePasswordReset() {
+        loginViewModel.resetPasswordStatus.observe(viewLifecycleOwner, {
+            when(it){
+                is LoginViewModel.LoginStatus.Failed -> {
+                    hideProgressBar()
+                    openNoticeDialog("ok", it.errorText)
+                }
+                is LoginViewModel.LoginStatus.Success -> {
+                    hideProgressBar()
+                    openNoticeDialog("ok", it.resultText)
+
+                }
+
+                is LoginViewModel.LoginStatus.Loading -> {
+                    showProgressBar()
+                }
+            }
+        })
+    }
+
+    private fun onResetPasswordClicked() {
+            loginBinding.forgotPassword.setOnClickListener {
+                openResetPasswordDialog()
+            }
     }
 
     private fun onRegisterButtonClicked() {
@@ -72,6 +102,7 @@ class LoginFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
                     (activity?.application as MatManagerAdminApp).matAdmin = it.adminObject
                     hideProgressBar()
                     this.findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+                    loginViewModel.setLoginStatusToEmpty()
 
                 }
 
@@ -89,6 +120,13 @@ class LoginFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
 
     }
 
+    fun openResetPasswordDialog(){
+        val dialog = ResetPasswordDialog()
+        dialog.setListener(this)
+        dialog.show(parentFragmentManager, "Reset Password")
+
+    }
+
     private fun hideProgressBar(){
         loginBinding.progressBarLogin.visibility = View.INVISIBLE
     }
@@ -97,6 +135,9 @@ class LoginFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener {
         loginBinding.progressBarLogin.visibility = View.VISIBLE
     }
 
+    override fun onSaveButtonClicked(email: String) {
+        loginViewModel.resetPassword(email)
+    }
 
 
 }

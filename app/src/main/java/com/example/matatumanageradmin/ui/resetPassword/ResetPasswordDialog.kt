@@ -7,7 +7,7 @@ import androidx.fragment.app.DialogFragment
 import com.example.matatumanageradmin.databinding.ResetPasswordBinding
 import com.example.matatumanageradmin.utils.stringFromTl
 
-class ResetPassword : DialogFragment(){
+class ResetPasswordDialog : DialogFragment(){
 
 
     lateinit var resetPasswordBinding: ResetPasswordBinding
@@ -28,6 +28,8 @@ class ResetPassword : DialogFragment(){
                 if(stringFromTl(resetPasswordBinding.emailResetPassword) == stringFromTl(resetPasswordBinding.emailResetPassword)){
                     listener.onSaveButtonClicked(stringFromTl(resetPasswordBinding.emailResetPassword))
                 }
+
+                dialog?.dismiss()
             }
 
             builder.create()

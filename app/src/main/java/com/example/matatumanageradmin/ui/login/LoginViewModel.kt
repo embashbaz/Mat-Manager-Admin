@@ -25,12 +25,20 @@ class LoginViewModel @Inject
     val loginStatus: LiveData<LoginStatus>
             get() = _loginStatus
 
+    private var _resetPasswordStatus = MutableLiveData<LoginStatus>(LoginStatus.Empty)
+    val resetPasswordStatus: LiveData<LoginStatus>
+        get() = _resetPasswordStatus
+
     private var _registerButtonClicked = MutableLiveData(false)
     val registerButtonClicked: LiveData<Boolean>
             get() = _registerButtonClicked
 
     fun setToRegsterButtonClicked(boolean: Boolean){
         _registerButtonClicked.value = boolean
+    }
+
+    fun setLoginStatusToEmpty(){
+        _loginStatus.postValue(LoginStatus.Empty)
     }
 
     fun loginMethod(email: String, password: String){
@@ -52,6 +60,23 @@ class LoginViewModel @Inject
 
             }else{
             _loginStatus.value = LoginStatus.Failed("Please give both the password and email")
+        }
+
+    }
+
+    fun resetPassword(email: String){
+        if (email.isNotEmpty()){
+            viewModelScope.launch(dispatcher.io) {
+                _resetPasswordStatus.postValue(LoginStatus.Loading)
+                when(val response = repository.forgotAdminPassword(email)){
+                    is OperationStatus.Success -> _resetPasswordStatus.postValue(LoginStatus.Success("email sent", null))
+                    is OperationStatus.Error -> _resetPasswordStatus.postValue(LoginStatus.Failed(response.message!!))
+
+                }
+
+            }
+        }else{
+            _resetPasswordStatus.value = LoginStatus.Failed("email can not be null")
         }
 
     }
