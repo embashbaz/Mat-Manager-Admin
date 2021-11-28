@@ -1,15 +1,22 @@
 package com.example.matatumanageradmin.data
 
+import android.graphics.Bitmap
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.matatumanageradmin.utils.Constant
 import com.example.matatumanageradmin.utils.OperationStatus
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
+import okhttp3.internal.wait
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class KtorRepository @Inject constructor(
     private val mAuth: FirebaseAuth,
-    private  val api: MatManagerApi
+    private val api: MatManagerApi,
+    private val storage: FirebaseStorage
 ): MainRepository{
     override suspend fun loginAdmin(email: String, password: String): OperationStatus<MatAdmin> {
         return try {
@@ -122,6 +129,49 @@ class KtorRepository @Inject constructor(
             OperationStatus.Error(e.message ?: "An error occurred")
         }
     }
+
+    override suspend fun addSaveImage(
+        mBitmap: Bitmap,
+        adminId: String,
+        type: String,
+        name: String
+    ): OperationStatus<String> {
+        var imageRef = storage.reference.child(adminId+"/"+type+"/"+name+".jpg")
+
+        val bitmap = mBitmap
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+
+        return try {
+
+
+
+            var uploadTask = imageRef.putBytes(data).await().task.await()
+
+
+           var progress = (100.0 * uploadTask.bytesTransferred) / uploadTask.totalByteCount
+
+          // while (progress<100.0){
+         //      progress = (100.0 * uploadTask.bytesTransferred) / uploadTask.totalByteCount
+
+         //  }
+
+            Log.d("THISSSSSSSSSSSSSSSSSSS", progress.toString())
+
+
+            val url = imageRef.downloadUrl.await()
+            Log.d("THISSSSSSSSSSSSSSSSSSS", "RETURNINNNNNNNNNNNNNNNNNNNNNNG")
+            return OperationStatus.Success(url.toString())
+
+
+        }catch (e: Exception){
+            OperationStatus.Error(e.message ?: "An error occurred")
+        }
+
+    }
+
 
     override suspend fun updateBus(bus: Bus): OperationStatus<String> {
         return  try{

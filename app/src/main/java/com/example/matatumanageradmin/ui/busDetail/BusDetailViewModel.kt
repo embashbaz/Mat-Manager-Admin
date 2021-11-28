@@ -1,5 +1,6 @@
 package com.example.matatumanageradmin.ui.busDetail
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.matatumanageradmin.data.Bus
 import com.example.matatumanageradmin.data.MainRepository
 import com.example.matatumanageradmin.ui.matAdminRegistration.MatManagerAdminRegistrationViewModel
+import com.example.matatumanageradmin.utils.Constant
 import com.example.matatumanageradmin.utils.DispatcherProvider
 import com.example.matatumanageradmin.utils.OperationStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,34 +47,54 @@ class BusDetailViewModel  @Inject constructor(val repository: MainRepository,
         plate: String,
         identifier: String,
         model: String,
-        comment: String
-    ){
+        comment: String,
+        bitmap: Bitmap?
+    ) {
 
 
-        if(_createOrUpdateBus.value == true){
+        if (_createOrUpdateBus.value == true) {
             _busObject.value!!.plate = plate
             _busObject.value!!.identifier = identifier
-            _busObject.value!!.carModel =model
+            _busObject.value!!.carModel = model
             _busObject.value!!.comment = comment
-            _busObject.value!!.managerId =adminId
+            _busObject.value!!.managerId = adminId
 
 
             viewModelScope.launch(dispatcher.io) {
                 _createOrUpdateBusResult.postValue(CreateOrUpdateBusStatus.Loading)
-                when (val result = repository.updateBus(_busObject.value!!)){
+                when (val result = repository.updateBus(_busObject.value!!)) {
                     is OperationStatus.Error -> _createOrUpdateBusResult.postValue(
-                        CreateOrUpdateBusStatus.Failed(result.message!!))
+                        CreateOrUpdateBusStatus.Failed(result.message!!)
+                    )
                     is OperationStatus.Success -> _createOrUpdateBusResult.postValue(
-                        CreateOrUpdateBusStatus.Success("Bus added"))
+                        CreateOrUpdateBusStatus.Success("Bus added")
+                    )
 
                 }
 
             }
 
-        }else{
-            val bus = Bus(plate, adminId, identifier, model, "", "", "","",0.0,
-                0.0, "active", comment, "")
+        } else {
+            val bus = Bus(
+                plate, adminId, identifier, model, "", "", "", "", 0.0,
+                0.0, "active", comment, ""
+            )
 
+            if (bitmap == null) {
+                saveBusToDb(bus)
+            } else {
+
+                viewModelScope.launch(dispatcher.io) {
+                    saveBusPicture(bus, bitmap)
+                }
+            }
+
+
+        }
+
+    }
+
+        fun saveBusToDb(bus: Bus) {
             viewModelScope.launch(dispatcher.io) {
                 _createOrUpdateBusResult.postValue(CreateOrUpdateBusStatus.Loading)
                 when (val result = repository.addMatatu(bus)){
@@ -84,12 +106,30 @@ class BusDetailViewModel  @Inject constructor(val repository: MainRepository,
                 }
 
             }
+        }
+
+       suspend fun saveBusPicture(bus: Bus, bitmap: Bitmap){
+            viewModelScope.launch(dispatcher.io){
+
+                _createOrUpdateBusResult.postValue(CreateOrUpdateBusStatus.Loading)
+                when(val result = repository.addSaveImage(bitmap, bus.managerId, Constant.BUS_IMAGE, bus.plate)){
+                    is OperationStatus.Error -> _createOrUpdateBusResult.postValue(
+                        CreateOrUpdateBusStatus.Failed(result.message!!))
+                    is OperationStatus.Success -> {
+                        bus.picture = result.data!!
+                        saveBusToDb(bus)
+                    }
+
+                }
+            }.join()
 
         }
 
 
 
-    }
+
+
+
 
 
 

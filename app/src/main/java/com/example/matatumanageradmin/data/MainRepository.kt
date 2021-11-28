@@ -1,6 +1,7 @@
 package com.example.matatumanageradmin.data
 
 
+import android.graphics.Bitmap
 import com.example.matatumanageradmin.utils.OperationStatus
 
 interface MainRepository {
@@ -12,6 +13,8 @@ interface MainRepository {
     suspend fun registerDriver(driver: Driver, password: String): OperationStatus<String>
     suspend fun addTrip (trip: Trip): OperationStatus<String>
     suspend fun addMatatu (matatu: Bus): OperationStatus<String>
+
+    suspend fun addSaveImage(mBitmap: Bitmap, adminId: String,type: String, name: String): OperationStatus<String>
 
     //ToDo: update admin
     //ToDo: update driver

@@ -122,8 +122,8 @@ class BusDetailFragment : Fragment() {
              stringFromTl(busDetailBinding.plateBusDetailTl),
              "",
             stringFromTl(busDetailBinding.busModelDetailTl),
-            stringFromTl(busDetailBinding.commentBusDetailTl)
-            )
+            stringFromTl(busDetailBinding.commentBusDetailTl),
+            imageBitmap)
     }
 
     private fun populateView() {

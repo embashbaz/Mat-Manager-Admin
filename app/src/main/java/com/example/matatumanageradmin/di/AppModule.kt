@@ -7,6 +7,7 @@ import com.example.matatumanageradmin.utils.DispatcherProvider
 import com.example.util.BASE_URL
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +30,10 @@ object AppModule {
     @Provides
     fun provideFirebaseAuth() = FirebaseAuth.getInstance()
 
+    @Singleton
+    @Provides
+    fun provideFirebaseStorage() = FirebaseStorage.getInstance()
+
 
     @Singleton
     @Provides
@@ -41,7 +46,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideMainRepository(api: MatManagerApi, auth: FirebaseAuth): MainRepository = KtorRepository(auth, api)
+    fun provideMainRepository(api: MatManagerApi, auth: FirebaseAuth, storage: FirebaseStorage): MainRepository = KtorRepository(auth, api, storage)
 
     @Singleton
     @Provides
