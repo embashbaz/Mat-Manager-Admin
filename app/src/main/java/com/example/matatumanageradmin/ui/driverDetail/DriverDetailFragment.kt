@@ -120,7 +120,8 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
                                         stringFromTl(driverDetailBinding.confirmPasswordDriverTl),
                                         stringFromTl(driverDetailBinding.addressDriverTl),
                                         stringFromTl(driverDetailBinding.permitDriverTl),
-                                        stringFromTl(driverDetailBinding.idNumberDriverTl))
+                                        stringFromTl(driverDetailBinding.idNumberDriverTl),
+                                        imageBitmap)
     }
 
     private fun populateView() {
@@ -133,6 +134,9 @@ class DriverDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListen
                 driverDetailBinding.addressDriverTl .editText!!.setText(it.address)
                 driverDetailBinding.permitDriverTl.editText!!.setText(it.permitNumber)
                 driverDetailBinding.idNumberDriverTl .editText!!.setText(it.cardId)
+
+                if (it.pictureLink.isNotEmpty())
+                    Glide.with(requireView()).load(it.pictureLink).apply(RequestOptions.circleCropTransform()).into(driverDetailBinding.driverImageDetail)
 
             })
     }

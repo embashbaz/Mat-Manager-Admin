@@ -121,7 +121,7 @@ class BusDetailViewModel  @Inject constructor(val repository: MainRepository,
                     }
 
                 }
-            }.join()
+            }
 
         }
 

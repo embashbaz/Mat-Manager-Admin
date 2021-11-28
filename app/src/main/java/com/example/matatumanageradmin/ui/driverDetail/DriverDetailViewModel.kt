@@ -1,13 +1,16 @@
 package com.example.matatumanageradmin.ui.driverDetail
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.matatumanageradmin.data.Bus
 import com.example.matatumanageradmin.data.Driver
 import com.example.matatumanageradmin.data.MainRepository
 import com.example.matatumanageradmin.data.MatAdmin
 import com.example.matatumanageradmin.ui.matAdminRegistration.MatManagerAdminRegistrationViewModel
+import com.example.matatumanageradmin.utils.Constant
 import com.example.matatumanageradmin.utils.DispatcherProvider
 import com.example.matatumanageradmin.utils.OperationStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,7 +53,8 @@ constructor(private var repository: MainRepository,
                     confirmPassword: String,
                     address: String,
                     licenseNumber: String,
-                    nationalId: String  ){
+                    nationalId: String,
+                    mBitmap: Bitmap?){
         if(!name.isNullOrEmpty() && !email.isNullOrEmpty() && !password.isNullOrEmpty()
             && !confirmPassword.isNullOrEmpty() && !address.isNullOrEmpty() &&
                 !licenseNumber.isNullOrEmpty() && !nationalId.isNullOrEmpty()){
@@ -72,21 +76,15 @@ constructor(private var repository: MainRepository,
                     "this", name, email, floatPhone!!, address, "active", "this", "this"
                 )
 
-                viewModelScope.launch(dispatcher.io) {
-                    _registrationDriverState.postValue(RegistrationDriverStatus.Loading)
+                if (mBitmap == null){
+                    saveDriver(driver, password)
+                }else{
 
-                    when (val result = repository.registerDriver(driver, password)) {
-                        is OperationStatus.Error -> _registrationDriverState.postValue(
-                            RegistrationDriverStatus.Failed(result.message!!)
-                        )
-                        is OperationStatus.Success -> _registrationDriverState.postValue(
-                            RegistrationDriverStatus.Success("Registration Successful ")
-                        )
-
-                    }
-
-
+                    savePicture(mBitmap, driver, password)
                 }
+
+
+
 
             }else{
                 RegistrationDriverStatus.Failed("Both password have to match")
@@ -97,6 +95,40 @@ constructor(private var repository: MainRepository,
         }
 
 
+
+    }
+
+    fun savePicture(bitmap: Bitmap, driver: Driver, password: String){
+        viewModelScope.launch(dispatcher.io) {
+            _registrationDriverState.postValue(RegistrationDriverStatus.Loading)
+
+            when (val result = repository.addSaveImage(bitmap, driver.managerId, Constant.DRIVER_IMAGE, driver.cardId)) {
+                is OperationStatus.Error -> _registrationDriverState.postValue(
+                    RegistrationDriverStatus.Failed(result.message!!)
+                )
+                is OperationStatus.Success -> {
+                    driver.pictureLink = result.data!!
+                    saveDriver(driver, password)
+                }
+
+            }
+        }
+    }
+
+    fun saveDriver(driver: Driver, password: String) {
+        viewModelScope.launch(dispatcher.io) {
+            _registrationDriverState.postValue(RegistrationDriverStatus.Loading)
+
+            when (val result = repository.registerDriver(driver, password)) {
+                is OperationStatus.Error -> _registrationDriverState.postValue(
+                    RegistrationDriverStatus.Failed(result.message!!)
+                )
+                is OperationStatus.Success -> _registrationDriverState.postValue(
+                    RegistrationDriverStatus.Success("Registration Successful ")
+                )
+
+            }
+        }
 
     }
 
