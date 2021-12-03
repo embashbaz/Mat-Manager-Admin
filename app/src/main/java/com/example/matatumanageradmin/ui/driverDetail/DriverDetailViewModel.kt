@@ -87,11 +87,11 @@ constructor(private var repository: MainRepository,
 
 
             }else{
-                RegistrationDriverStatus.Failed("Both password have to match")
+                _registrationDriverState.value = RegistrationDriverStatus.Failed("Both password have to match")
             }
 
         }else{
-            RegistrationDriverStatus.Failed("Invalid phone number")
+            _registrationDriverState.value = RegistrationDriverStatus.Failed("Invalid phone number")
         }
 
 

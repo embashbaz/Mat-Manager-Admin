@@ -29,10 +29,10 @@ class BusDetailFragment : Fragment() {
     var imageBitmap: Bitmap? = null
     val REQUEST_IMAGE_CAPTURE = 1
 
-    private lateinit var busDetailBinding : FragmentBusDetailBinding
+    private lateinit var busDetailBinding: FragmentBusDetailBinding
     private val busDetailViewModel: BusDetailViewModel by viewModels()
 
-    private val adminId : String by lazy {  ( activity?.application as MatManagerAdminApp).matAdmin!!.matAdminId }
+    private val adminId: String by lazy { (activity?.application as MatManagerAdminApp).matAdmin!!.matAdminId }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,11 +41,11 @@ class BusDetailFragment : Fragment() {
         busDetailBinding = FragmentBusDetailBinding.inflate(inflater, container, false)
         val view = busDetailBinding.root
 
-        if(arguments?.getString("createOrUpdateBus")== "update") {
+        if (arguments?.getString("createOrUpdateBus") == "update") {
             busDetailViewModel.changeToUpdate()
             arguments?.getParcelable<Bus>("bus")?.let { busDetailViewModel.setBusObject(it) }
 
-        }else{
+        } else {
             busDetailBinding.nextActionBus.layoutParams.height = 0
         }
 
@@ -54,12 +54,12 @@ class BusDetailFragment : Fragment() {
         }
 
         busDetailViewModel.createOrUpdateBus.observe(viewLifecycleOwner, {
-            if(it){
+            if (it) {
                 changeViewBehaviour()
                 populateView()
                 listenToNextActionClick()
 
-            }else{
+            } else {
 
             }
 
@@ -70,7 +70,7 @@ class BusDetailFragment : Fragment() {
         }
 
         busDetailViewModel.createOrUpdateBusResult.observe(viewLifecycleOwner, {
-            when(it){
+            when (it) {
                 is BusDetailViewModel.CreateOrUpdateBusStatus.Success -> showLongToast("Success")
                 is BusDetailViewModel.CreateOrUpdateBusStatus.Failed -> showLongToast(it.errorText)
             }
@@ -86,7 +86,8 @@ class BusDetailFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString("record_id", busPlate)
             bundle.putString("expense_type", Constant.BUS_EXPENSE)
-            this.findNavController().navigate(R.id.action_busDetailFragment_to_expenseListFragment, bundle)
+            this.findNavController()
+                .navigate(R.id.action_busDetailFragment_to_expenseListFragment, bundle)
         }
 
         busDetailBinding.goToIssueCard.setOnClickListener {
@@ -94,7 +95,8 @@ class BusDetailFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString("record_id", busPlate)
             bundle.putString("issue_type", Constant.BUS_ISSUE)
-            this.findNavController().navigate(R.id.action_busDetailFragment_to_issueFragment, bundle)
+            this.findNavController()
+                .navigate(R.id.action_busDetailFragment_to_issueFragment, bundle)
 
         }
 
@@ -112,28 +114,32 @@ class BusDetailFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString("record_id", busPlate)
             bundle.putString("stat_type", Constant.BUS_STAT)
-            this.findNavController().navigate(R.id.action_busDetailFragment_to_statisticsFragment, bundle)
+            this.findNavController()
+                .navigate(R.id.action_busDetailFragment_to_statisticsFragment, bundle)
         }
     }
 
     private fun saveBusOnButtonClicked() {
         busDetailViewModel.getDataFromView(
             adminId,
-             stringFromTl(busDetailBinding.plateBusDetailTl),
-             "",
+            stringFromTl(busDetailBinding.plateBusDetailTl),
+            "",
             stringFromTl(busDetailBinding.busModelDetailTl),
             stringFromTl(busDetailBinding.commentBusDetailTl),
-            imageBitmap)
+            imageBitmap
+        )
     }
 
     private fun populateView() {
         busDetailViewModel.busObject.observe(viewLifecycleOwner, {
-            if(it != null){
+            if (it != null) {
                 busDetailBinding.plateBusDetailTl.editText!!.setText(it.plate)
                 busDetailBinding.busModelDetailTl.editText!!.setText(it.carModel)
                 busDetailBinding.commentBusDetailTl.editText!!.setText(it.comment)
-                if(!it.picture.isNullOrEmpty()){
-                  Glide.with(requireView()).load(it.picture).apply(RequestOptions.circleCropTransform()).into(busDetailBinding.busImageDetail)
+                if (!it.picture.isNullOrEmpty()) {
+                    Glide.with(requireView()).load(it.picture)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(busDetailBinding.busImageDetail)
                 }
             }
 
@@ -153,6 +159,7 @@ class BusDetailFragment : Fragment() {
             // display error state to the user
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
@@ -162,8 +169,6 @@ class BusDetailFragment : Fragment() {
 
         }
     }
-
-
 
 
 }

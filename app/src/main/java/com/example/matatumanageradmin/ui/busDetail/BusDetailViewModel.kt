@@ -16,29 +16,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BusDetailViewModel  @Inject constructor(val repository: MainRepository,
-                                              private val dispatcher: DispatcherProvider
-) : ViewModel(){
+class BusDetailViewModel @Inject constructor(
+    val repository: MainRepository,
+    private val dispatcher: DispatcherProvider
+) : ViewModel() {
 
     private var _createOrUpdateBus = MutableLiveData(false)
-    val createOrUpdateBus : LiveData<Boolean>
-            get() = _createOrUpdateBus
+    val createOrUpdateBus: LiveData<Boolean>
+        get() = _createOrUpdateBus
 
     private var _busObject = MutableLiveData<Bus>()
-    val busObject : LiveData<Bus>
-            get() = _busObject
+    val busObject: LiveData<Bus>
+        get() = _busObject
 
-    private var _createOrUpdateBusResult = MutableLiveData<CreateOrUpdateBusStatus>(CreateOrUpdateBusStatus.Empty)
-    val createOrUpdateBusResult : LiveData<CreateOrUpdateBusStatus>
+    private var _createOrUpdateBusResult =
+        MutableLiveData<CreateOrUpdateBusStatus>(CreateOrUpdateBusStatus.Empty)
+    val createOrUpdateBusResult: LiveData<CreateOrUpdateBusStatus>
         get() = _createOrUpdateBusResult
 
 
-
-    fun changeToUpdate(){
+    fun changeToUpdate() {
         _createOrUpdateBus.value = true
     }
 
-    fun setBusObject(bus: Bus){
+    fun setBusObject(bus: Bus) {
         _busObject.value = bus
     }
 
@@ -59,20 +60,12 @@ class BusDetailViewModel  @Inject constructor(val repository: MainRepository,
             _busObject.value!!.comment = comment
             _busObject.value!!.managerId = adminId
 
-
-            viewModelScope.launch(dispatcher.io) {
-                _createOrUpdateBusResult.postValue(CreateOrUpdateBusStatus.Loading)
-                when (val result = repository.updateBus(_busObject.value!!)) {
-                    is OperationStatus.Error -> _createOrUpdateBusResult.postValue(
-                        CreateOrUpdateBusStatus.Failed(result.message!!)
-                    )
-                    is OperationStatus.Success -> _createOrUpdateBusResult.postValue(
-                        CreateOrUpdateBusStatus.Success("Bus added")
-                    )
-
-                }
-
+            if (bitmap == null) {
+                updateBus()
+            } else {
+                saveBusPicture(_busObject.value!!, bitmap)
             }
+
 
         } else {
             val bus = Bus(
@@ -94,51 +87,69 @@ class BusDetailViewModel  @Inject constructor(val repository: MainRepository,
 
     }
 
-        fun saveBusToDb(bus: Bus) {
-            viewModelScope.launch(dispatcher.io) {
-                _createOrUpdateBusResult.postValue(CreateOrUpdateBusStatus.Loading)
-                when (val result = repository.addMatatu(bus)){
-                    is OperationStatus.Error -> _createOrUpdateBusResult.postValue(
-                        CreateOrUpdateBusStatus.Failed(result.message!!))
-                    is OperationStatus.Success -> _createOrUpdateBusResult.postValue(
-                        CreateOrUpdateBusStatus.Success("Bus updated"))
-
-                }
+    fun saveBusToDb(bus: Bus) {
+        viewModelScope.launch(dispatcher.io) {
+            _createOrUpdateBusResult.postValue(CreateOrUpdateBusStatus.Loading)
+            when (val result = repository.addMatatu(bus)) {
+                is OperationStatus.Error -> _createOrUpdateBusResult.postValue(
+                    CreateOrUpdateBusStatus.Failed(result.message!!)
+                )
+                is OperationStatus.Success -> _createOrUpdateBusResult.postValue(
+                    CreateOrUpdateBusStatus.Success("Bus updated")
+                )
 
             }
+
+        }
+    }
+
+    fun updateBus() {
+        viewModelScope.launch(dispatcher.io) {
+            _createOrUpdateBusResult.postValue(CreateOrUpdateBusStatus.Loading)
+            when (val result = repository.updateBus(_busObject.value!!)) {
+                is OperationStatus.Error -> _createOrUpdateBusResult.postValue(
+                    CreateOrUpdateBusStatus.Failed(result.message!!)
+                )
+                is OperationStatus.Success -> _createOrUpdateBusResult.postValue(
+                    CreateOrUpdateBusStatus.Success("Bus added")
+                )
+
+            }
+
         }
 
-       suspend fun saveBusPicture(bus: Bus, bitmap: Bitmap){
-            viewModelScope.launch(dispatcher.io){
+    }
 
-                _createOrUpdateBusResult.postValue(CreateOrUpdateBusStatus.Loading)
-                when(val result = repository.addSaveImage(bitmap, bus.managerId, Constant.BUS_IMAGE, bus.plate)){
-                    is OperationStatus.Error -> _createOrUpdateBusResult.postValue(
-                        CreateOrUpdateBusStatus.Failed(result.message!!))
-                    is OperationStatus.Success -> {
+    fun saveBusPicture(bus: Bus, bitmap: Bitmap) {
+        viewModelScope.launch(dispatcher.io) {
+
+            _createOrUpdateBusResult.postValue(CreateOrUpdateBusStatus.Loading)
+            when (val result =
+                repository.addSaveImage(bitmap, bus.managerId, Constant.BUS_IMAGE, bus.plate)) {
+                is OperationStatus.Error -> _createOrUpdateBusResult.postValue(
+                    CreateOrUpdateBusStatus.Failed(result.message!!)
+                )
+                is OperationStatus.Success -> {
+                    if (_createOrUpdateBus.value == false) {
                         bus.picture = result.data!!
                         saveBusToDb(bus)
+                    } else {
+                        _busObject.value!!.picture = result.data!!
+                        updateBus()
                     }
-
                 }
-            }
 
+            }
         }
 
+    }
 
 
-
-
-
-
-
-
-
-    sealed class CreateOrUpdateBusStatus{
-        class Success(val resultText: String): CreateOrUpdateBusStatus()
-        class Failed(val errorText: String): CreateOrUpdateBusStatus()
-        object Loading: CreateOrUpdateBusStatus()
-        object Empty: CreateOrUpdateBusStatus()
+    sealed class CreateOrUpdateBusStatus {
+        class Success(val resultText: String) : CreateOrUpdateBusStatus()
+        class Failed(val errorText: String) : CreateOrUpdateBusStatus()
+        object Loading : CreateOrUpdateBusStatus()
+        object Empty : CreateOrUpdateBusStatus()
     }
 
 }

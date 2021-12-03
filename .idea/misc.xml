@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/botton_sheet_background.xml" value="0.24114583333333334" />
         <entry key="app/src/main/res/drawable/ic_baseline_bar_chart_24.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/drawable/ic_baseline_report_problem_24.xml" value="0.2140625" />
         <entry key="app/src/main/res/drawable/search_et.xml" value="0.23125" />
@@ -17,6 +18,7 @@
         <entry key="app/src/main/res/layout/fragment_issue.xml" value="0.2015625" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mat_manager_registration.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_tracking.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/fragment_trip.xml" value="0.1" />
         <entry key="app/src/main/res/layout/general_recycler_item.xml" value="0.2015625" />
         <entry key="app/src/main/res/layout/my_progress.xml" value="0.17299898682877407" />

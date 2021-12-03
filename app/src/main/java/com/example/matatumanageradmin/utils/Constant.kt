@@ -26,6 +26,8 @@ object Constant {
     const val DRIVERS_TRIP = "driver_trip"
     const val BUSES_TRIP = "bus_trip"
 
+    const val ALL_STAT = "all_stat"
+
     const val DRIVER_IMAGE = "driver_image"
     const val BUS_IMAGE = "bus_image"
 
