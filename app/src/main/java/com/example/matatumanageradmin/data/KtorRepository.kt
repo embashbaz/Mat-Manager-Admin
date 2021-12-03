@@ -251,11 +251,11 @@ class KtorRepository @Inject constructor(
 
     override suspend fun getDriver(driverId: String): OperationStatus<Driver> {
         return try {
-            val response = api.getDrivers(Constant.SINGLE_DRIVER, driverId, "")
+            val response = api.getSingleDriver(Constant.SINGLE_DRIVER, driverId)
             val result = response.body()
-            if (response.isSuccessful && !result!!.isEmpty()!!) {
-                OperationStatus.Success(result[0])
-            } else {
+            if(response.isSuccessful && result != null){
+                OperationStatus.Success(result)
+            }else{
                 OperationStatus.Error(response.message())
             }
 
@@ -266,15 +266,15 @@ class KtorRepository @Inject constructor(
 
     override suspend fun getBus(plate: String): OperationStatus<Bus> {
         return try {
-            val response = api.getBus(Constant.SINGLE_BUS, plate, "")
+            val response = api.getSingleBus(Constant.SINGLE_BUS, plate)
             val result = response.body()
-            if (response.isSuccessful && !result!!.isEmpty()!!) {
-                OperationStatus.Success(result[0])
-            } else {
+            if(response.isSuccessful && result != null){
+                OperationStatus.Success(result)
+            }else{
                 OperationStatus.Error(response.message())
             }
 
-        } catch (e: Exception) {
+        }catch (e: Exception){
             OperationStatus.Error(e.message ?: "An error occurred")
         }
     }
@@ -308,6 +308,8 @@ class KtorRepository @Inject constructor(
         return try {
             val response = api.getStats(type, id, startDate, endDate)
             val result = response.body()
+            val errorBody = response.errorBody()?.charStream()?.readText()?:""
+            Log.d("THISSSSSS", errorBody)
             if (response.isSuccessful && !result!!.isEmpty()!!) {
                 OperationStatus.Success(result)
             } else {

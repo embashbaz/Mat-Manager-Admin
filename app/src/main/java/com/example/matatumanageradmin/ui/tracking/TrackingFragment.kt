@@ -5,10 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.matatumanageradmin.MatManagerAdminApp
 import com.example.matatumanageradmin.R
 import com.example.matatumanageradmin.data.BusLocation
+import com.example.matatumanageradmin.data.Statistics
 import com.example.matatumanageradmin.databinding.FragmentTrackingBinding
 import com.example.matatumanageradmin.utils.showLongToast
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -18,18 +22,22 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TrackingFragment : Fragment() {
+class TrackingFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
     lateinit var mapView: MapView
     private var map: GoogleMap? = null
+    private lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>
 
 
     private lateinit var trackingBinding: FragmentTrackingBinding
     private val trackingViewModel: TrackingViewModel by viewModels()
     private val adminId by lazy { (activity?.application as MatManagerAdminApp).matAdmin!!.matAdminId }
+    private var allLocation = mutableListOf<BusLocation>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +47,10 @@ class TrackingFragment : Fragment() {
         trackingBinding = FragmentTrackingBinding.inflate(inflater, container, false)
         val view = trackingBinding.root
         mapView = trackingBinding.projectMapView
-        trackingViewModel.getBuses(adminId)
+        trackingViewModel.getStat(adminId)
+
+        bottomSheet = BottomSheetBehavior.from(trackingBinding.tackingDetail)
+        subscribeToTrackingObjectClicked()
 
 
         return view
@@ -52,7 +63,12 @@ class TrackingFragment : Fragment() {
         mapView.getMapAsync {
             map = it
             subscriberToObserver()
+            map!!.setOnMarkerClickListener(this)
 
+        }
+        bottomSheet.apply {
+            peekHeight = 50
+            this.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
 
@@ -60,12 +76,13 @@ class TrackingFragment : Fragment() {
 
     private fun subscriberToObserver() {
         trackingViewModel.busLocations.observe(viewLifecycleOwner, {
-            when(it){
+            when (it) {
                 is TrackingViewModel.TrackingStatus.Failed -> {
                     showLongToast(it.errorText)
                 }
                 is TrackingViewModel.TrackingStatus.Success -> {
                     showItemsOnTheMap(it.busLocations)
+                    allLocation = it.busLocations as MutableList<BusLocation>
                 }
 
             }
@@ -75,18 +92,20 @@ class TrackingFragment : Fragment() {
     }
 
     private fun showItemsOnTheMap(busLocations: List<BusLocation>) {
-        for (busLocation in busLocations){
+        for (busLocation in busLocations) {
             val location = busLocation.location!!
             val loc = LatLng(location.latitude, location.longitude)
             var locMarker = busLocation.marker
 
-            if (locMarker == null){
+            if (locMarker == null) {
                 val markerOptions = MarkerOptions()
                 markerOptions.position(loc)
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.final_bus))
                 markerOptions.rotation(location.bearing)
+                markerOptions.anchor(0.5f, 0.5f)
                 locMarker = map?.addMarker(markerOptions)
-            }else{
+
+            } else {
                 locMarker!!.position = loc
                 locMarker!!.rotation = location.bearing
             }
@@ -103,6 +122,76 @@ class TrackingFragment : Fragment() {
 
         }
     }
+
+    private fun subscribeToTrackingObjectClicked() {
+        trackingViewModel.trackingObject.observe(viewLifecycleOwner, {
+            when (it) {
+                is TrackingViewModel.TrackingObjectStatus.Success -> {
+                    bottomSheet.apply {
+                        this.state = BottomSheetBehavior.STATE_EXPANDED
+                        populateBottomSheetViews(it)
+                    }
+
+
+                }
+
+            }
+
+        })
+
+
+    }
+
+    private fun populateBottomSheetViews(it: TrackingViewModel.TrackingObjectStatus.Success) {
+        if (it.bus != null) {
+            trackingBinding.busTrackTxt.setText(" ${it.bus!!.plate} \n ${it.bus!!.carModel}")
+            if (it.bus!!.picture.isNotEmpty())
+                Glide.with(requireView()).load(it.bus!!.picture).apply(RequestOptions.circleCropTransform()).into(trackingBinding.busTrackImage)
+
+
+        }
+
+        if (it.stat != null) {
+            showStatInfo(it.stat!!)
+        }
+
+        if (it.driver != null) {
+            trackingBinding.driverTrackTxt.setText(
+                " ${it.driver!!.name} \n ${it.driver!!.email} \n" +
+                        " ${it.driver!!.phoneNumber}")
+
+                if (it.driver!!.pictureLink.isNotEmpty())
+                    Glide.with(requireView()).load(it.driver!!.pictureLink).apply(RequestOptions.circleCropTransform()).into(trackingBinding.driverTrackImage)
+
+
+
+        }
+
+        if (it.resultText.isNotEmpty()) {
+            showLongToast(it.resultText)
+        }
+
+
+    }
+
+    private fun showStatInfo(stat: Statistics) {
+        trackingBinding.statDataTrack.setText("Time started: ${stat.dayId} \n" +
+                "Distance covered today ${stat.distance} \n" +
+                "Money collected ${stat.amount} \n" +
+                "Expense so far today ${stat.expense} \n" +
+                "Number of trip today ${stat.maxSpeed}")
+    }
+
+    override fun onMarkerClick(p0: Marker): Boolean {
+        val position = p0.position
+        for (pos in allLocation) {
+            if (pos.location!!.latitude == position.latitude && pos.location!!.longitude == position.longitude) {
+                trackingViewModel.busTrackerClicked(pos.busPlate)
+            }
+        }
+        return true
+    }
+
 
     override fun onResume() {
         super.onResume()
