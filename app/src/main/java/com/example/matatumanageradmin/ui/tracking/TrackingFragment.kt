@@ -1,6 +1,8 @@
 package com.example.matatumanageradmin.ui.tracking
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +33,7 @@ class TrackingFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     lateinit var mapView: MapView
     private var map: GoogleMap? = null
     private lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>
+    lateinit var mainHandler: Handler
 
 
     private lateinit var trackingBinding: FragmentTrackingBinding
@@ -47,11 +50,11 @@ class TrackingFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         trackingBinding = FragmentTrackingBinding.inflate(inflater, container, false)
         val view = trackingBinding.root
         mapView = trackingBinding.projectMapView
-        trackingViewModel.getStat(adminId)
+
 
         bottomSheet = BottomSheetBehavior.from(trackingBinding.tackingDetail)
         subscribeToTrackingObjectClicked()
-
+        mainHandler = Handler(Looper.getMainLooper())
 
         return view
     }
@@ -66,6 +69,8 @@ class TrackingFragment : Fragment(), GoogleMap.OnMarkerClickListener {
             map!!.setOnMarkerClickListener(this)
 
         }
+
+
         bottomSheet.apply {
             peekHeight = 50
             this.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -73,6 +78,15 @@ class TrackingFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
 
     }
+
+    fun getLatestLocation() =
+       object : Runnable {
+            override fun run() {
+                trackingViewModel.getStat(adminId)
+                mainHandler.postDelayed(this, 20000)
+            }
+        }
+
 
     private fun subscriberToObserver() {
         trackingViewModel.busLocations.observe(viewLifecycleOwner, {
@@ -92,6 +106,7 @@ class TrackingFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     }
 
     private fun showItemsOnTheMap(busLocations: List<BusLocation>) {
+        map!!.clear()
         for (busLocation in busLocations) {
             val location = busLocation.location!!
             val loc = LatLng(location.latitude, location.longitude)
@@ -144,7 +159,8 @@ class TrackingFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
     private fun populateBottomSheetViews(it: TrackingViewModel.TrackingObjectStatus.Success) {
         if (it.bus != null) {
-            trackingBinding.busTrackTxt.setText(" ${it.bus!!.plate} \n ${it.bus!!.carModel}")
+            trackingBinding.busTrackTxt.setText(" ${it.bus!!.plate}")
+            trackingBinding.busSecondaryTxtTrack.setText(" ${it.bus!!.carModel}")
             if (it.bus!!.picture.isNotEmpty())
                 Glide.with(requireView()).load(it.bus!!.picture).apply(RequestOptions.circleCropTransform()).into(trackingBinding.busTrackImage)
 
@@ -157,8 +173,10 @@ class TrackingFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
         if (it.driver != null) {
             trackingBinding.driverTrackTxt.setText(
-                " ${it.driver!!.name} \n ${it.driver!!.email} \n" +
-                        " ${it.driver!!.phoneNumber}")
+                " ${it.driver!!.name} ")
+
+            trackingBinding.driverSecondayTextTrack.setText(" ${it.driver!!.email} \n " +
+                    "${it.driver!!.phoneNumber}")
 
                 if (it.driver!!.pictureLink.isNotEmpty())
                     Glide.with(requireView()).load(it.driver!!.pictureLink).apply(RequestOptions.circleCropTransform()).into(trackingBinding.driverTrackImage)
@@ -195,11 +213,13 @@ class TrackingFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
     override fun onResume() {
         super.onResume()
+        mainHandler.post(getLatestLocation())
         mapView?.onResume()
     }
 
     override fun onStart() {
         super.onStart()
+
         mapView?.onStart()
     }
 
@@ -210,6 +230,7 @@ class TrackingFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
     override fun onPause() {
         super.onPause()
+        mainHandler.removeCallbacks(getLatestLocation())
         mapView?.onPause()
     }
 

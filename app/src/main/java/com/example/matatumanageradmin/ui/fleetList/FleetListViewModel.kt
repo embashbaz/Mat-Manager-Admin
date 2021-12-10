@@ -63,6 +63,7 @@ constructor(private var repository: MainRepository,
     }
 
     fun getDataByQuery(admin: String, queryText: String){
+        this.queryText = queryText
         adminId = admin
         if(_busOrDriverList.value == true){
             getDriversByQuery()

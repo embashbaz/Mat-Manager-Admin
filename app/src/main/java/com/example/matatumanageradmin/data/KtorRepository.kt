@@ -154,16 +154,7 @@ class KtorRepository @Inject constructor(
 
             var progress = (100.0 * uploadTask.bytesTransferred) / uploadTask.totalByteCount
 
-            // while (progress<100.0){
-            //      progress = (100.0 * uploadTask.bytesTransferred) / uploadTask.totalByteCount
-
-            //  }
-
-            Log.d("THISSSSSSSSSSSSSSSSSSS", progress.toString())
-
-
             val url = imageRef.downloadUrl.await()
-            Log.d("THISSSSSSSSSSSSSSSSSSS", "RETURNINNNNNNNNNNNNNNNNNNNNNNG")
             return OperationStatus.Success(url.toString())
 
 
@@ -350,6 +341,8 @@ class KtorRepository @Inject constructor(
         return try {
             val response = api.getDrivers(Constant.DRIVERS_QUERY, adminId, stringQuery)
             val result = response.body()
+            val errorBody = response.errorBody()?.charStream()?.readText() ?: ""
+            Log.d("THISSSSSS", errorBody)
             if (response.isSuccessful && !result!!.isEmpty()!!) {
                 OperationStatus.Success(result)
             } else {
@@ -368,6 +361,8 @@ class KtorRepository @Inject constructor(
         return try {
             val response = api.getBus(Constant.BUSES_QUERY, adminId, stringQuery)
             val result = response.body()
+            val errorBody = response.errorBody()?.charStream()?.readText() ?: ""
+            Log.d("THISSSSSS", errorBody)
             if (response.isSuccessful && !result!!.isEmpty()!!) {
                 OperationStatus.Success(result)
             } else {
